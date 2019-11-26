@@ -42,15 +42,14 @@ public class DataImporter {
         try {
             BufferedReader bufferreader = new BufferedReader(new FileReader(fileImportName));
             if (fileType == 1) {
-                System.out.println("Imported Patients: ");
                 while ((line = bufferreader.readLine()) != null) {
                     String[] singlePerson = line.split(",");
-                    if (singlePerson.length == 14) {
+
                         if (singlePerson[0].equals("V") || singlePerson[0].equals("A")
                                 || singlePerson[0].equals("N") || singlePerson[0].equals("T")) {
                             type = singlePerson[0].toLowerCase();
                         }
-
+                        boolean patientTrue = true;
                         //Doctor
                         if (singlePerson[0].equals("D")) {
                             type = singlePerson[0].toLowerCase();
@@ -69,10 +68,9 @@ public class DataImporter {
                             privileges = singlePerson[3].toLowerCase();
                             Doctor newDoc = new Doctor(type, firstName, lastName, privileges);
                             doctorList.add(newDoc);
+                            patientTrue = false;
                         }
-
                         //Patient IF Statements
-                        boolean patientTrue = true;
                         if (singlePerson[0].equals("I") || singlePerson[0].equals("O")) {
                             type = singlePerson[0].toLowerCase();
 
@@ -182,7 +180,7 @@ public class DataImporter {
                                     patientAdmissionDate, patientDischargeDate);
                             patientList.add(newPatient);
                         }
-                    }
+
                 }
                 for (Patient p : patientList) {
                     personList.add(p);
@@ -278,8 +276,7 @@ public class DataImporter {
         return treatmentList;
     }
 
-    public ArrayList getPatientList(String fileImportName, int fileType) {
-        importPerson(fileImportName, fileType);
+    public ArrayList getPatientList() {
         return patientList;
     }
 

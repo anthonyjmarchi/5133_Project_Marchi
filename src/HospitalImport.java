@@ -141,7 +141,7 @@ public class HospitalImport {
     }
 
     public void deleteDoctorTableData() {
-        String sql = "DELETE FROM doctor;";
+        String sql = "DELETE FROM doctor_information;";
 
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
@@ -170,14 +170,14 @@ public class HospitalImport {
 
     public void insertDoctor(String doctor_first_name, String doctor_last_name, String doctor_privileges) {
 
-        String sql = "INSERT INTO doctor(doctor_first_name, doctor_last_name, doctor_privileges) VALUES (?,?);";
+        String sql = "INSERT INTO doctor_information(doctor_first_name, doctor_last_name, doctor_privileges) VALUES (?,?,?);";
 
         try (Connection conn = this.connect();) {
 
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, doctor_first_name); //First ? in sql
             ps.setString(2, doctor_last_name); //Second ? in sql
-            ps.setString(2, doctor_privileges); //Third ? in sql
+            ps.setString(3, doctor_privileges); //Third ? in sql
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
