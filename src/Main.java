@@ -29,20 +29,30 @@ public class Main {
             System.out.println("          Welcome");
             System.out.println("Please Select an Operation");
             System.out.println("****************************");
-            System.out.println("1. General Import \n2. Import Additional Doctor \n3. Import Treatment \n4. Delete Table Data \n5. Perform SQL Queries");
+            System.out.println("1. General Import \n2. Import Additional Doctor \n3. Import Treatment \n4. Delete Table Data \n5. Perform SQL Queries \n6. Reset Hospital Room Table");
             System.out.println("****************************");
             System.out.println("Enter Selection: ");
             typeOfFile = Integer.parseInt(myObj.nextLine());
             if (typeOfFile == 1) {
+                HospitalImport h = new HospitalImport();
+                if (h.selectTotalRooms() < 20) {
+                    int defaultRoomAddition = 1;
+                    while (defaultRoomAddition  < 21) {
+                        HospitalImport d = new HospitalImport();
+                        d.insertRoomsDefault(defaultRoomAddition);
+                        defaultRoomAddition++;
+                    }
+                }
                 System.out.println("Enter File Location: ");
                 fileNameInput = myObj.nextLine();
                 test.importPerson(fileNameInput, 1);
                 peopleImported = true;
                 importingPatients = test.getPatientList();
                 importingDoctors = test.getDoctorList();
-                HospitalImport h = new HospitalImport();
                 for (Patient p : importingPatients) {
                     h.insertPerson(p.getType(), p.getFirstName(), p.getLastName(), p.getPatientID(), p.getPatientRoomNumber(), p.getPatientEmergencyContact(), p.getPatientEmergencyContactNumber(), p.getPatientPolicyNumber(), p.getPatientInsurancePolicyCompany(), p.getPatientsPrimaryDoctorLastName(), p.getPatientDiagnosis(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
+                    h.updateRooms(p.getPatientRoomNumber(), p.getLastName(), p.getFirstName(), p.getPatientID(), p.getPatientAdmissionDate());
+
                 }
 
                 for (Doctor d : importingDoctors) {
@@ -76,6 +86,7 @@ public class Main {
                 HospitalImport q = new HospitalImport();
                 q.deletePersonTableData();
                 q.deleteDoctorTableData();
+                q.deleteRoomTableData();
                 importingPatients.clear();
                 importingDoctors.clear();
             }
@@ -86,7 +97,7 @@ public class Main {
                         System.out.println("****************************");
                         System.out.println("Please Select a Query:");
                         System.out.println("****************************");
-                        System.out.println("1. Show Current Patients. \n2. Show Hospital Doctors. \n3. Return to Main");
+                        System.out.println("1. Show Current Patients. \n2. Show Hospital Doctors. \n3. Show Unoccupied Rooms. \n50. Return to Main");
                         System.out.println("****************************");
                         System.out.println("Enter Selection: ");
                         querySelection = Integer.parseInt(myObj.nextLine());
@@ -130,6 +141,13 @@ public class Main {
                         if (querySelection == 3) {
                             queryTrue = false;
                             System.out.println("****************************");
+                            HospitalImport q = new HospitalImport();
+                            q.getUnOccupiedRooms();
+                            System.out.println("****************************");
+                        }
+                        if (querySelection == 50) {
+                            queryTrue = false;
+                            System.out.println("****************************");
                             System.out.println("     Returning.....");
                             System.out.println("****************************");
                         }
@@ -137,6 +155,16 @@ public class Main {
                 }
 
             }
+            if (typeOfFile == 6) {
+                int defaultRoomAdditionReset = 1;
+                while (defaultRoomAdditionReset  < 21) {
+                    HospitalImport d = new HospitalImport();
+                    d.insertRoomsDefault(defaultRoomAdditionReset);
+                    defaultRoomAdditionReset++;
+                }
+
+            }
+
             System.out.println("Would you perform any additional Main Menu operations?");
             System.out.println("Y/N: ");
             input = myObj.nextLine().toUpperCase();

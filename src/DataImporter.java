@@ -116,6 +116,8 @@ public class DataImporter {
                                     valueTwo = false;
                                     patientTrue = false;
                                 }
+
+
                             }
                             if (valueTwo) {
                                 patientRoomNumber = Integer.parseInt(singlePerson[5]);

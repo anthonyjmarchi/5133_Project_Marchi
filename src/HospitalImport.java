@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 
 public class HospitalImport {
 
@@ -186,7 +187,7 @@ public class HospitalImport {
     }
 
     public void selectTheRooms() {
-        String sql = "SELECT hospital_rooms.patient_id, hospital_rooms.patient_room_number, hospital_rooms.patient_last_name FROM hospital_rooms";
+        String sql = "SELECT hospital_rooms.hospital_room_number, hospital_rooms. FROM hospital_rooms";
 
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
@@ -203,25 +204,87 @@ public class HospitalImport {
         }
     }
 
-    public void insertRooms(int hospital_room_number, String hostpial_patient_last_name, String hostpial_patient_first_name, int hospital_patient_id) {
+    public void insertRoomsDefault(int number) {
 
-          String sql = "INSERT INTO hospital_rooms(hospital_room_number, hospital_patient_last_name, hospital_patient_first_name, hospital_patient_id) VALUES (?,?,?,?);";
+        String sql = "INSERT INTO hospital_rooms(hospital_room_number, hospital_patient_last_name, hospital_patient_first_name, hospital_patient_id, hospital_patient_admission_date) VALUES (?,?,?,?,?);";
+        try (Connection conn = this.connect();) {
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, number); //First ? in sql
+            ps.setString(2, "N/A"); //Second ? in sql
+            ps.setString(3, "N/A"); //Third ? in sql
+            ps.setInt(4, 0); //Third ? in sql
+            ps.setString(5, "N/A"); //Third ? in sql
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateRooms(int hospital_room_number_input, String hospital_patient_last_name_input, String hospital_patient_first_name_input, int hospital_patient_id_input, String hospital_patient_admission_date_input) {
+          String sql = ("UPDATE hospital_rooms SET hospital_patient_last_name = '" + hospital_patient_last_name_input + "', hospital_patient_first_name = '" + hospital_patient_first_name_input + "', hospital_patient_id = '" + hospital_patient_id_input + "', hospital_patient_admission_date = '" + hospital_patient_admission_date_input + "' WHERE hospital_room_number = '" + hospital_room_number_input + "';");
 
           try (Connection conn = this.connect();) {
 
               PreparedStatement ps = conn.prepareStatement(sql);
-              ps.setInt(1, hospital_room_number); //First ? in sql
-              ps.setString(2, hostpial_patient_last_name); //Second ? in sql
-              ps.setString(3, hostpial_patient_first_name); //Third ? in sql
-              ps.setInt(4, hospital_patient_id); //Third ? in sql
               ps.executeUpdate();
               ps.close();
 
           } catch (SQLException e) {
               System.out.println(e.getMessage());
           }
-
       }
+
+    public int selectTotalRooms() {
+        String sql = "SELECT hospital_rooms.hospital_room_number FROM hospital_rooms";
+        int count = 0;
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+
+            // loop through the result set
+            while (rs.next()) {
+                count++;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return count;
+    }
+
+    public void getUnOccupiedRooms() {
+        String sql = "SELECT hospital_rooms.hospital_room_number, hospital_patient_id FROM hospital_rooms";
+        int count = 0;
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+
+            // loop through the result set
+            while (rs.next()) {
+                if (rs.getString("hospital_patient_id").equals("0")) {
+                    System.out.println("Unoccupied Room Number: " + rs.getString("hospital_room_number"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteRoomTableData() {
+        String sql = "DELETE FROM hospital_rooms;";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
 }
 
 
