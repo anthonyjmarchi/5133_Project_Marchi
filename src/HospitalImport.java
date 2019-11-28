@@ -67,7 +67,7 @@ public class HospitalImport {
 
     }
 
-    public void selectPatient() {
+    public void selectAllPatients() {
         String sql = "SELECT person_information.patient_id, person_information.patient_last_name, person_information.patient_initial_diagnosis FROM person_information;";
 
         try (Connection conn = this.connect();
@@ -186,24 +186,6 @@ public class HospitalImport {
         }
     }
 
-    public void selectTheRooms() {
-        String sql = "SELECT hospital_rooms.hospital_room_number, hospital_rooms. FROM hospital_rooms";
-
-        try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
-
-            // loop through the result set
-            while (rs.next()) {
-                System.out.println(rs.getString("patient_id") + " " + rs.getString("patient_room_number")
-                        + " " + rs.getString("patient_last_name"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
     public void insertRoomsDefault(int number) {
 
         String sql = "INSERT INTO hospital_rooms(hospital_room_number, hospital_patient_last_name, hospital_patient_first_name, hospital_patient_id, hospital_patient_admission_date) VALUES (?,?,?,?,?);";
@@ -249,7 +231,7 @@ public class HospitalImport {
                     System.out.println("Unoccupied Room Number: " + rs.getString("hospital_room_number"));
                 }
                 else {
-                    System.out.println("Occupied Room Number: " + rs.getString("hospital_room_number") + " " + rs.getString("hospital_patient_last_name") + " " + rs.getString("hospital_patient_first_name"));
+                    System.out.println("| Occupied Room Number: " + rs.getString("hospital_room_number") + " | Patient Last Name: " + rs.getString("hospital_patient_last_name") + " | Patient First Name: " + rs.getString("hospital_patient_first_name") + " |");
                 }
             }
         } catch (SQLException e) {
@@ -303,9 +285,82 @@ public class HospitalImport {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
     }
 
+    public void insertPatient(String patient_type, String patient_first_name, String patient_last_name, int patient_id,
+                             int patient_room_number, String patient_emergency_contact_name, String patient_emergency_contact_phone,
+                             String patient_insurance_policy_number, String patient_insurance_policy_company,
+                             String patient_primary_doctor_last_name, String patient_initial_diagnosis, String patient_admission_date,
+                             String patient_discharge_date) {
 
+        String sql = "INSERT INTO patient_data(patient_type, patient_first_name, patient_last_name, patient_id, patient_room_number, patient_emergency_contact_name, patient_emergency_contact_phone, patient_insurance_policy_number, patient_insurance_policy_company, patient_primary_doctor_last_name, patient_initial_diagnosis, patient_admission_date, patient_discharge_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+        try (Connection conn = this.connect();) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, patient_type); //First ? in sql
+            ps.setString(2, patient_first_name); //Second ? in sql
+            ps.setString(3, patient_last_name); //Third ? in sql
+            ps.setInt(4, patient_id); //Fourth ? in sql
+            ps.setInt(5, patient_room_number); //Fifth ? in sql
+            ps.setString(6, patient_emergency_contact_name);
+            ps.setString(7, patient_emergency_contact_phone);
+            ps.setString(8, patient_insurance_policy_number);
+            ps.setString(9, patient_insurance_policy_company);
+            ps.setString(10, patient_primary_doctor_last_name);
+            ps.setString(11, patient_initial_diagnosis);
+            ps.setString(12, patient_admission_date);
+            ps.setString(13, patient_discharge_date);
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void getAllPatients() {
+        String sql = "SELECT patient_data.patient_type, patient_data.patient_first_name, patient_data.patient_last_name, patient_data.patient_id, patient_data.patient_room_number, patient_data.patient_emergency_contact_name, patient_data.patient_emergency_contact_phone, patient_data.patient_insurance_policy_number, patient_data.patient_insurance_policy_company, patient_data.patient_primary_doctor_last_name, patient_data.patient_initial_diagnosis, patient_data.patient_admission_date, patient_data.patient_discharge_date FROM patient_data";
+        int count = 0;
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+            while (rs.next()) {
+                System.out.println("| Patient Type: " + rs.getString("patient_type") + " | First Name: " + rs.getString("patient_first_name") + " | Last Name: " + rs.getString("patient_last_name") + "| Diagnosis: " + rs.getString("patient_initial_diagnosis") + " | Admission Date: " + rs.getString("patient_admission_date") + " | Patient Discharge Date: " + rs.getString("patient_discharge_date") + " | Patient Emergency Contact Name: " + rs.getString("patient_emergency_contact_name") + " | Patient Emergency Contact Phone Number: " + rs.getString("patient_emergency_contact_phone"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getInpatients() {
+        String sql = "SELECT patient_data.patient_type, patient_data.patient_id, patient_data.patient_first_name, patient_data.patient_last_name FROM patient_data";
+        int count = 0;
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+            while (rs.next()) {
+                if (rs.getString("patient_type").equals("i")) {
+                    System.out.println("| Patient ID: " + rs.getString("patient_id") + " | First Name: " + rs.getString("patient_first_name") + " | Last Name: " + rs.getString("patient_last_name"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deletePatientData() {
+        String sql = "DELETE FROM patient_data;";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 
 }
 

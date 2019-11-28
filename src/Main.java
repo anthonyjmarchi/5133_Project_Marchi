@@ -29,7 +29,7 @@ public class Main {
             System.out.println("          Welcome");
             System.out.println("Please Select an Operation");
             System.out.println("****************************");
-            System.out.println("1. General Import \n2. Import Additional Doctor \n3. Import Treatment \n4. Delete Table Data \n5. Perform SQL Queries \n6. Reset Hospital Room Table \n7. Exit");
+            System.out.println("1. General Import \n2. Import Additional Doctor \n3. Import Treatment \n4. Perform SQL Queries \n5. Delete All Table Data \n6. Reset Hospital Room Data \n7. Exit");
             System.out.println("****************************");
             System.out.println("Enter Selection: ");
             typeOfFile = Integer.parseInt(myObj.nextLine());
@@ -51,6 +51,7 @@ public class Main {
                 importingDoctors = test.getDoctorList();
                 for (Patient p : importingPatients) {
                     h.insertPerson(p.getType(), p.getFirstName(), p.getLastName(), p.getPatientID(), p.getPatientRoomNumber(), p.getPatientEmergencyContact(), p.getPatientEmergencyContactNumber(), p.getPatientPolicyNumber(), p.getPatientInsurancePolicyCompany(), p.getPatientsPrimaryDoctorLastName(), p.getPatientDiagnosis(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
+                    h.insertPatient(p.getType(), p.getFirstName(), p.getLastName(), p.getPatientID(), p.getPatientRoomNumber(), p.getPatientEmergencyContact(), p.getPatientEmergencyContactNumber(), p.getPatientPolicyNumber(), p.getPatientInsurancePolicyCompany(), p.getPatientsPrimaryDoctorLastName(), p.getPatientDiagnosis(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
                     h.updateRooms(p.getPatientRoomNumber(), p.getLastName(), p.getFirstName(), p.getPatientID(), p.getPatientAdmissionDate());
 
                 }
@@ -83,14 +84,6 @@ public class Main {
                 h.selectTreatment();
             }
             if (typeOfFile == 4) {
-                HospitalImport q = new HospitalImport();
-                q.deletePersonTableData();
-                q.deleteDoctorTableData();
-                q.deleteRoomTableData();
-                importingPatients.clear();
-                importingDoctors.clear();
-            }
-            if (typeOfFile == 5) {
                 boolean queryTrue = true;
                     while (queryTrue == true) {
                         int querySelection = 0;
@@ -144,17 +137,34 @@ public class Main {
                                 System.out.println("****************************");
                                 System.out.println("Enter Selection: ");
                                 String patientInfoChoice = myObj.nextLine();
+                                if (patientInfoChoice.equals("1")) {
+                                    System.out.println("****************************");
+                                    HospitalImport p = new HospitalImport();
+                                    p.getAllPatients();
+                                }
+                                if (patientInfoChoice.equals("2")) {
+                                    System.out.println("****************************");
+                                    HospitalImport p = new HospitalImport();
+                                    p.getInpatients();
+                                }
                                 if (patientInfoChoice.equals("11")) {
                                     roomUtilQuery = false;
                                 }
-                                System.out.println("****************************");
-
                             }
                         }
                         if (querySelection == 5) {
                             queryTrue = false;
                         }
                 }
+            }
+            if (typeOfFile == 5) {
+                HospitalImport q = new HospitalImport();
+                q.deletePersonTableData();
+                q.deleteDoctorTableData();
+                q.deleteRoomTableData();
+                q.deletePatientData();
+                importingPatients.clear();
+                importingDoctors.clear();
             }
             if (typeOfFile == 6) {
                 int defaultRoomAdditionReset = 1;
@@ -163,7 +173,6 @@ public class Main {
                     d.insertRoomsDefault(defaultRoomAdditionReset);
                     defaultRoomAdditionReset++;
                 }
-
             }
             if (typeOfFile == 7) {
                 System.out.println("****************************");
