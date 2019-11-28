@@ -350,6 +350,22 @@ public class HospitalImport {
         }
     }
 
+    public void getOutpatients() {
+        String sql = "SELECT patient_data.patient_type, patient_data.patient_id, patient_data.patient_first_name, patient_data.patient_last_name FROM patient_data";
+        int count = 0;
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+            while (rs.next()) {
+                if (rs.getString("patient_type").equals("o")) {
+                    System.out.println("| Patient ID: " + rs.getString("patient_id") + " | First Name: " + rs.getString("patient_first_name") + " | Last Name: " + rs.getString("patient_last_name"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void deletePatientData() {
         String sql = "DELETE FROM patient_data;";
 
@@ -359,7 +375,28 @@ public class HospitalImport {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
 
+    public void getInpatientRange(String startDate, String endDate) {
+        String sql = "SELECT patient_data.patient_type, patient_data.patient_id, patient_data.patient_first_name, patient_data.patient_last_name, patient_data.patient_admission_date FROM patient_data";
+        int startDateInput = Integer.parseInt(startDate);
+        int endDateInput = Integer.parseInt(endDate);
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+            while (rs.next()) {
+                String admissionDateFromTable = rs.getString("patient_admission_date");
+                String admissionDateNew = admissionDateFromTable.replace("-", "");
+                int admissionDateNewInt = Integer.parseInt(admissionDateNew);
+                if (rs.getString("patient_type").equals("i")) {
+                    if (admissionDateNewInt >= startDateInput && admissionDateNewInt <= endDateInput) {
+                        System.out.println("| Patient ID: " + rs.getString("patient_id") + " | First Name: " + rs.getString("patient_first_name") + " | Last Name: " + rs.getString("patient_last_name"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

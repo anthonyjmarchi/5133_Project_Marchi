@@ -147,6 +147,23 @@ public class Main {
                                     HospitalImport p = new HospitalImport();
                                     p.getInpatients();
                                 }
+                                if (patientInfoChoice.equals("3")) {
+                                    System.out.println("****************************");
+                                    System.out.println("Please Enter a Start Date Range (mm/dd/yyyy: ");
+                                    String startDate = myObj.nextLine();
+                                    String startDateNew = startDate.replace("/", "");
+                                    System.out.println("Please Enter a End Date Range (mm/dd/yyyy: ");
+                                    String endDate = myObj.nextLine();
+                                    String endDateNew = endDate.replace("/", "");
+                                    HospitalImport p = new HospitalImport();
+                                    System.out.println("****************************");
+                                    p.getInpatientRange(startDateNew, endDateNew);
+                                }
+                                if (patientInfoChoice.equals("5")) {
+                                    System.out.println("****************************");
+                                    HospitalImport p = new HospitalImport();
+                                    p.getOutpatients();
+                                }
                                 if (patientInfoChoice.equals("11")) {
                                     roomUtilQuery = false;
                                 }

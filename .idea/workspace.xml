@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a8b4ca22-f34f-4fef-8a32-9695c62deda1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/57e52d3a-0a36-418e-91ba-c1d520ed1ec4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/57e52d3a-0a36-418e-91ba-c1d520ed1ec4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/5133_Project_Marchi/HospitalImport.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/5133_Project_Marchi/HospitalImport.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/5133_Project_Marchi/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/5133_Project_Marchi/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sqlite/Patient.txt" beforeDir="false" afterPath="$PROJECT_DIR$/sqlite/Patient.txt" afterDir="false" />
@@ -75,8 +75,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2055">
-              <caret line="137" column="72" lean-forward="true" selection-start-line="137" selection-start-column="72" selection-end-line="137" selection-end-column="72" />
+            <state relative-caret-position="218">
+              <caret line="158" column="87" selection-start-line="158" selection-start-column="87" selection-end-line="158" selection-end-column="87" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -87,17 +87,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/HospitalImport.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="337" column="56" selection-start-line="337" selection-start-column="56" selection-end-line="337" selection-end-column="56" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="das://57e52d3a-0a36-418e-91ba-c1d520ed1ec4/schema/main/table/patient_data">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
+            <state relative-caret-position="144">
+              <caret line="392" column="202" selection-start-line="392" selection-start-column="202" selection-end-line="392" selection-end-column="202" />
             </state>
           </provider>
         </entry>
@@ -127,8 +118,8 @@
       <find>importPerson</find>
       <find>input</find>
       <find>50</find>
-      <find>hospital</find>
       <find>roomQueryChoice</find>
+      <find>hospital</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -147,8 +138,8 @@
         <option value="57e52d3a-0a36-418e-91ba-c1d520ed1ec4/schema/main/table/hospital_rooms.sql" />
         <option value="57e52d3a-0a36-418e-91ba-c1d520ed1ec4/schema/main/table/hospital_rooms_occupied.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/57e52d3a-0a36-418e-91ba-c1d520ed1ec4/console.sql" />
-        <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/HospitalImport.java" />
+        <option value="$PROJECT_DIR$/src/Main.java" />
       </list>
     </option>
   </component>
@@ -193,7 +184,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574911191706" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574913952374" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="GenericSQL" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -246,18 +237,18 @@
       <option name="presentableId" value="Default" />
       <updated>1574621649064</updated>
       <workItem from="1574621650780" duration="1041000" />
-      <workItem from="1574686694085" duration="53190000" />
+      <workItem from="1574686694085" duration="55463000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54231000" />
+    <option name="totallyTimeSpent" value="56504000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.08804523" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14135703" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -267,7 +258,7 @@
       <window_info anchor="bottom" id="Database Console" weight="0.32876712" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.25342464" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.5109589" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.36849314" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -282,7 +273,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.26655897" />
+      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.12358643" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Maven" order="6" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
@@ -483,15 +474,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/HospitalImport.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="337" column="56" selection-start-line="337" selection-start-column="56" selection-end-line="337" selection-end-column="56" />
+        <state relative-caret-position="144">
+          <caret line="392" column="202" selection-start-line="392" selection-start-column="202" selection-end-line="392" selection-end-column="202" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2055">
-          <caret line="137" column="72" lean-forward="true" selection-start-line="137" selection-start-column="72" selection-end-line="137" selection-end-column="72" />
+        <state relative-caret-position="218">
+          <caret line="158" column="87" selection-start-line="158" selection-start-column="87" selection-end-line="158" selection-end-column="87" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
