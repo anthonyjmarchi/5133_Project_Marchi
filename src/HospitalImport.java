@@ -238,15 +238,19 @@ public class HospitalImport {
       }
 
     public int selectTotalRooms() {
-        String sql = "SELECT hospital_rooms.hospital_room_number FROM hospital_rooms";
+        String sql = "SELECT hospital_rooms.hospital_room_number, hospital_rooms.hospital_patient_last_name, hospital_rooms.hospital_patient_first_name FROM hospital_rooms";
         int count = 0;
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql))   {
-
             // loop through the result set
             while (rs.next()) {
-                count++;
+                if (rs.getString("hospital_patient_last_name").equals("N/A")) {
+                    System.out.println("Unoccupied Room Number: " + rs.getString("hospital_room_number"));
+                }
+                else {
+                    System.out.println("Occupied Room Number: " + rs.getString("hospital_room_number") + " " + rs.getString("hospital_patient_last_name") + " " + rs.getString("hospital_patient_first_name"));
+                }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -265,6 +269,24 @@ public class HospitalImport {
             while (rs.next()) {
                 if (rs.getString("hospital_patient_id").equals("0")) {
                     System.out.println("Unoccupied Room Number: " + rs.getString("hospital_room_number"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getOccupiedRooms() {
+        String sql = "SELECT hospital_rooms.hospital_room_number, hospital_rooms.hospital_patient_last_name, hospital_rooms.hospital_patient_first_name FROM hospital_rooms";
+        int count = 0;
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+
+            // loop through the result set
+            while (rs.next()) {
+                if (!(rs.getString("hospital_patient_last_name").equals("N/A"))) {
+                    System.out.println("Occupied Room Number: " + rs.getString("hospital_room_number") + " " + rs.getString("hospital_patient_last_name") + " " + rs.getString("hospital_patient_first_name"));
                 }
             }
         } catch (SQLException e) {

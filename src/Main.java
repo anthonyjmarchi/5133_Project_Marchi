@@ -29,7 +29,7 @@ public class Main {
             System.out.println("          Welcome");
             System.out.println("Please Select an Operation");
             System.out.println("****************************");
-            System.out.println("1. General Import \n2. Import Additional Doctor \n3. Import Treatment \n4. Delete Table Data \n5. Perform SQL Queries \n6. Reset Hospital Room Table");
+            System.out.println("1. General Import \n2. Import Additional Doctor \n3. Import Treatment \n4. Delete Table Data \n5. Perform SQL Queries \n6. Reset Hospital Room Table \n7. Exit");
             System.out.println("****************************");
             System.out.println("Enter Selection: ");
             typeOfFile = Integer.parseInt(myObj.nextLine());
@@ -95,65 +95,66 @@ public class Main {
                     while (queryTrue == true) {
                         int querySelection = 0;
                         System.out.println("****************************");
-                        System.out.println("Please Select a Query:");
+                        System.out.println("Please Select a Query Type:");
                         System.out.println("****************************");
-                        System.out.println("1. Show Current Patients. \n2. Show Hospital Doctors. \n3. Show Unoccupied Rooms. \n50. Return to Main");
+                        System.out.println("1. Room Utilization \n2. Patient Information \n3. Diagnosis and Treatment Information \n4. Employee Information \n5. Go Back");
                         System.out.println("****************************");
                         System.out.println("Enter Selection: ");
                         querySelection = Integer.parseInt(myObj.nextLine());
                         if (querySelection == 1) {
-                            System.out.println("****************************");
-                            System.out.println("Patients:");
-                            for (Patient r : importingPatients) {
-                                System.out.println(r.getFirstName() + " " + r.getLastName() + " " + r.getPatientAdmissionDate() + " " + r.getPatientDiagnosis() + " " + r.getPatientRoomNumber());
-                            }
-                            System.out.println("****************************");
-                            System.out.println("Would you perform any additional SQL Queries?");
-                            System.out.println("****************************");
-                            System.out.println("Y/N: ");
-                            input = myObj.nextLine().toUpperCase();
-                            if (input.equals("Y")) {
-                                queryTrue = true;
-                            } else {
-                                queryTrue = false;
+                            boolean roomUtilQuery = true;
+                            while (roomUtilQuery) {
                                 System.out.println("****************************");
-                                System.out.println("     Returning to Main");
+                                System.out.println("Please Select a Query Room Utilization Query: ");
                                 System.out.println("****************************");
+                                System.out.println("1. Occupied Rooms \n2. Unoccupied Rooms \n3. All Rooms \n4. Go Back");
+                                System.out.println("****************************");
+                                System.out.println("Enter Selection: ");
+                                String roomQueryChoice = myObj.nextLine();
+                                if (roomQueryChoice.equals("1")) {
+                                    System.out.println("****************************");
+                                    HospitalImport q = new HospitalImport();
+                                    q.getOccupiedRooms();
+                                    System.out.println("****************************");
+                                }
+                                if (roomQueryChoice.equals("2")) {
+                                    System.out.println("****************************");
+                                    HospitalImport q = new HospitalImport();
+                                    q.getUnOccupiedRooms();
+                                    System.out.println("****************************");
+                                }
+                                if (roomQueryChoice.equals("3")) {
+                                    System.out.println("****************************");
+                                    HospitalImport q = new HospitalImport();
+                                    q.selectTotalRooms();
+                                    System.out.println("****************************");
+                                }
+                                if (roomQueryChoice.equals("4")) {
+                                    roomUtilQuery = false;
+                                }
                             }
                         }
                         if (querySelection == 2) {
-                            System.out.println("****************************");
-                            System.out.println("tonz");
-                            System.out.println("****************************");
-                            System.out.println("Would you perform any additional SQL Queries?");
-                            System.out.println("****************************");
-                            System.out.println("Y/N: ");
-                            input = myObj.nextLine().toUpperCase();
-                            if (input.equals("Y")) {
-                                queryTrue = true;
-                            } else {
-                                queryTrue = false;
+                            boolean roomUtilQuery = true;
+                            while (roomUtilQuery) {
                                 System.out.println("****************************");
-                                System.out.println("     Returning to Main");
+                                System.out.println("Please Select a Patient Information Query: ");
                                 System.out.println("****************************");
+                                System.out.println("1. All Patients \n2. All Admitted Patients \n3. All Inpatient Patients w/ Date \n4. Discharged Patients w/ Date \n5. Outpatient Patients \n6. Outpatient Services w/ Date \n7. Patient Admission History \n8. Patient Treatment History \n9. Patients Admission 30 Days \n10. Patient Averages \n11. Go Back");
+                                System.out.println("****************************");
+                                System.out.println("Enter Selection: ");
+                                String patientInfoChoice = myObj.nextLine();
+                                if (patientInfoChoice.equals("11")) {
+                                    roomUtilQuery = false;
+                                }
+                                System.out.println("****************************");
+
                             }
                         }
-                        if (querySelection == 3) {
+                        if (querySelection == 5) {
                             queryTrue = false;
-                            System.out.println("****************************");
-                            HospitalImport q = new HospitalImport();
-                            q.getUnOccupiedRooms();
-                            System.out.println("****************************");
                         }
-                        if (querySelection == 50) {
-                            queryTrue = false;
-                            System.out.println("****************************");
-                            System.out.println("     Returning.....");
-                            System.out.println("****************************");
-                        }
-
                 }
-
             }
             if (typeOfFile == 6) {
                 int defaultRoomAdditionReset = 1;
@@ -164,17 +165,17 @@ public class Main {
                 }
 
             }
-
-            System.out.println("Would you perform any additional Main Menu operations?");
-            System.out.println("Y/N: ");
-            input = myObj.nextLine().toUpperCase();
-            if (input.equals("Y")) {
-                continueImporting = true;
-            }
-            else {
+            if (typeOfFile == 7) {
                 System.out.println("****************************");
-                System.out.println("          Goodbye");
-                System.out.println("****************************");
+                System.out.print("Exiting.");
+                System.out.print(".");
+                System.out.print(".");
+                System.out.print(".");
+                System.out.print(".");
+                System.out.print(".");
+                System.out.print(".");
+                System.out.println("...Goodbye");
+                System.out.print("****************************");
                 continueImporting = false;
             }
         }
