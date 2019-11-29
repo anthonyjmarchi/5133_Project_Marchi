@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class HospitalImport {
 
@@ -397,6 +399,153 @@ public class HospitalImport {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void getDischargeDateRange(String startDateDischarge, String endDateDischarge) {
+        String sql = "SELECT patient_data.patient_type, patient_data.patient_id, patient_data.patient_first_name, patient_data.patient_last_name, patient_data.patient_admission_date FROM patient_data";
+        int startDateInput = Integer.parseInt(startDateDischarge);
+        int endDateInput = Integer.parseInt(endDateDischarge);
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+            while (rs.next()) {
+                String admissionDateFromTable = rs.getString("patient_discharge_date");
+                String admissionDateNew = admissionDateFromTable.replace("-", "");
+                int admissionDateNewInt = Integer.parseInt(admissionDateNew);
+                if (rs.getString("patient_type").equals("i")) {
+                    if (admissionDateNewInt >= startDateInput && admissionDateNewInt <= endDateInput) {
+                        System.out.println("| Patient ID: " + rs.getString("patient_id") + " | First Name: " + rs.getString("patient_first_name") + " | Last Name: " + rs.getString("patient_last_name"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getOutpatientDateRange(String startDateOutpatient, String endDateOutpatient) {
+        String sql = "SELECT patient_data.patient_type, patient_data.patient_id, patient_data.patient_first_name, patient_data.patient_last_name, patient_data.patient_admission_date FROM patient_data";
+        int startDateInput = Integer.parseInt(startDateOutpatient);
+        int endDateInput = Integer.parseInt(endDateOutpatient);
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+            while (rs.next()) {
+                String admissionDateFromTable = rs.getString("patient_discharge_date");
+                String admissionDateNew = admissionDateFromTable.replace("-", "");
+                int admissionDateNewInt = Integer.parseInt(admissionDateNew);
+                if (rs.getString("patient_type").equals("o")) {
+                    if (admissionDateNewInt >= startDateInput && admissionDateNewInt <= endDateInput) {
+                        System.out.println("| Patient ID: " + rs.getString("patient_id") + " | First Name: " + rs.getString("patient_first_name") + " | Last Name: " + rs.getString("patient_last_name"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertAdmission(int patientID, String patientFirstName, String patientLastName, String patientDiagnosis, String patientDoctor,
+                                String patientAdmission, String dischargeDate) {
+
+        String sql = "INSERT INTO admission_history(admitted_patient_id, admitted_patient_first_name, admitted_patient_last_name, admitted_patient_diagnosis, admitted_patient_doctor, admitted_patient_admission_date, admitted_patient_discharge_date) VALUES (?,?,?,?,?,?,?);";
+
+        try (Connection conn = this.connect();) {
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, patientID); //First ? in sql
+            ps.setString(2, patientFirstName); //Second ? in sql
+            ps.setString(3, patientLastName); //Third ? in sql
+            ps.setString(4, patientDiagnosis); //Fourth ? in sql
+            ps.setString(5, patientDoctor); //Fifth ? in sql
+            ps.setString(6, patientAdmission); //Fifth ? in sql
+            ps.setString(7, dischargeDate); //Fifth ? in sql
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void lookUpAdmissionHistory(String lookUpPatient) {
+
+        String sql = "SELECT admission_history.admitted_patient_id, admission_history.admitted_patient_first_name, admission_history.admitted_patient_last_name, admission_history.admitted_patient_admission_date, admission_history.admitted_patient_diagnosis FROM admission_history";
+        String lookUpNew = lookUpPatient.toLowerCase().trim();
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+            while (rs.next()) {
+                String admitted_id = rs.getString("admitted_patient_id").toLowerCase();
+                String admitted_last = rs.getString("admitted_patient_last_name").toLowerCase();
+                if (admitted_id.equals(lookUpNew) || admitted_last.equals(lookUpNew)) {
+                    System.out.println("| Admission Date: " + rs.getString("admitted_patient_admission_date") + " | Diagnosis: " + rs.getString("admitted_patient_diagnosis") + " |");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    /**
+
+    public void lookUpTreatmentHistory(String lookUpPatient) {
+
+        String sql = "SELECT admission_history.admitted_patient_id, admission_history.admitted_patient_first_name, admission_history.admitted_patient_last_name, admission_history.admitted_patient_admission_date, admission_history.admitted_patient_diagnosis FROM admission_history";
+        String lookUpNew = lookUpPatient.toLowerCase().trim();
+        ArrayList<String> admissionResults = new ArrayList<String>();
+        ArrayList<String> treatmentResults = new ArrayList<String>();
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+            while (rs.next()) {
+                String admitted_id = rs.getString("admitted_patient_id").toLowerCase();
+                String admitted_last = rs.getString("admitted_patient_last_name").toLowerCase();
+                if (admitted_id.equals(lookUpNew) || admitted_last.equals(lookUpNew)) {
+                    String admissionDateFromTable = rs.getString("patient_discharge_date");
+                    String admissionDateNew = admissionDateFromTable.replace("-", "");
+                    int admissionDateNewInt = Integer.parseInt(admissionDateNew);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+
+    public void frequentFliers() {
+
+        String sql = "SELECT admission_history.admitted_patient_id, admission_history.admitted_patient_first_name, admission_history.admitted_patient_last_name, admission_history.admitted_patient_admission_date, admission_history.admitted_patient_diagnosis FROM admission_history";
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        String newTime = currentDateTime.toString();
+        String reFormat = newTime.replace("/", "");
+        int currentDate = Integer.parseInt(reFormat);
+
+
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql))   {
+            while (rs.next()) {
+                String currentPatient = rs.getString("admitted_patient_last_name");
+                    if (rs.getString("admitted_patient_last_name").equals())
+                    String admissionDateFromTable = rs.getString("patient_discharge_date");
+                    String admissionDateNew = admissionDateFromTable.replace("-", "");
+                    int admissionDateNewInt = Integer.parseInt(admissionDateNew);
+                    int tempDate = 0;
+                    if (admissionDateNewInt > tempDate) {
+                        tempDate = admissionDateNewInt;
+                    }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+         **/
+
     }
 
 }

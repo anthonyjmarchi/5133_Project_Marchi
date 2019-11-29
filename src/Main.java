@@ -53,7 +53,7 @@ public class Main {
                     h.insertPerson(p.getType(), p.getFirstName(), p.getLastName(), p.getPatientID(), p.getPatientRoomNumber(), p.getPatientEmergencyContact(), p.getPatientEmergencyContactNumber(), p.getPatientPolicyNumber(), p.getPatientInsurancePolicyCompany(), p.getPatientsPrimaryDoctorLastName(), p.getPatientDiagnosis(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
                     h.insertPatient(p.getType(), p.getFirstName(), p.getLastName(), p.getPatientID(), p.getPatientRoomNumber(), p.getPatientEmergencyContact(), p.getPatientEmergencyContactNumber(), p.getPatientPolicyNumber(), p.getPatientInsurancePolicyCompany(), p.getPatientsPrimaryDoctorLastName(), p.getPatientDiagnosis(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
                     h.updateRooms(p.getPatientRoomNumber(), p.getLastName(), p.getFirstName(), p.getPatientID(), p.getPatientAdmissionDate());
-
+                    h.insertAdmission(p.getPatientID(), p.getFirstName(), p.getLastName(), p.getPatientDiagnosis(), p.getPatientsPrimaryDoctorLastName(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
                 }
 
                 for (Doctor d : importingDoctors) {
@@ -159,10 +159,64 @@ public class Main {
                                     System.out.println("****************************");
                                     p.getInpatientRange(startDateNew, endDateNew);
                                 }
+                                if (patientInfoChoice.equals("3")) {
+                                    System.out.println("****************************");
+                                    System.out.println("Please Enter a Start Discharge Date Range (mm/dd/yyyy: ");
+                                    String startDateDischarge = myObj.nextLine();
+                                    String startDateNewDischarge = startDateDischarge.replace("/", "");
+                                    System.out.println("Please Enter an End Discharge Date Range (mm/dd/yyyy: ");
+                                    String endDateDischarge = myObj.nextLine();
+                                    String endDateNewDischarge = endDateDischarge.replace("/", "");
+                                    HospitalImport p = new HospitalImport();
+                                    System.out.println("****************************");
+                                    p.getDischargeDateRange(startDateNewDischarge, endDateNewDischarge);
+                                }
                                 if (patientInfoChoice.equals("5")) {
                                     System.out.println("****************************");
                                     HospitalImport p = new HospitalImport();
                                     p.getOutpatients();
+                                }
+                                if (patientInfoChoice.equals("6")) {
+                                    System.out.println("****************************");
+                                    System.out.println("Please Enter a Start Outpatient Date Range (mm/dd/yyyy: ");
+                                    String startDateOutpatient = myObj.nextLine();
+                                    String startDateNewOutpatient = startDateOutpatient.replace("/", "");
+                                    System.out.println("Please Enter an End Outpatient Date Range (mm/dd/yyyy: ");
+                                    String endDateOutpatient = myObj.nextLine();
+                                    String endDateNewOutpatient = endDateOutpatient.replace("/", "");
+                                    HospitalImport p = new HospitalImport();
+                                    System.out.println("****************************");
+                                    p.getOutpatientDateRange(startDateNewOutpatient, endDateNewOutpatient);
+                                }
+                                if (patientInfoChoice.equals("7")) {
+                                    System.out.println("****************************");
+                                    System.out.println("Please Enter Patient ID or Last Name: ");
+                                    String lookupPatient = myObj.nextLine().toLowerCase();
+                                    HospitalImport p = new HospitalImport();
+                                    System.out.println("****************************");
+                                    p.lookUpAdmissionHistory(lookupPatient);
+                                }
+                                if (patientInfoChoice.equals("8")) {
+                                    System.out.println("****************************");
+                                    System.out.println("Results: ");
+                                    String lookupPatient = myObj.nextLine().toLowerCase();
+                                    HospitalImport p = new HospitalImport();
+                                    System.out.println("****************************");
+                                    p.lookUpAdmissionHistory(lookupPatient);
+                                }
+                                if (patientInfoChoice.equals("9")) {
+                                    System.out.println("****************************");
+                                    System.out.println("Patients Admitted Within 30 Days of Last Discharge Date: ");
+                                    HospitalImport p = new HospitalImport();
+                                    System.out.println("****************************");
+                                }
+                                if (patientInfoChoice.equals("10")) {
+                                    System.out.println("****************************");
+                                    System.out.println("Results: ");
+                                    String lookupPatient = myObj.nextLine().toLowerCase();
+                                    HospitalImport p = new HospitalImport();
+                                    System.out.println("****************************");
+                                    p.lookUpAdmissionHistory(lookupPatient);
                                 }
                                 if (patientInfoChoice.equals("11")) {
                                     roomUtilQuery = false;
