@@ -489,65 +489,6 @@ public class HospitalImport {
 
     }
 
-    /**
-
-    public void lookUpTreatmentHistory(String lookUpPatient) {
-
-        String sql = "SELECT admission_history.admitted_patient_id, admission_history.admitted_patient_first_name, admission_history.admitted_patient_last_name, admission_history.admitted_patient_admission_date, admission_history.admitted_patient_diagnosis FROM admission_history";
-        String lookUpNew = lookUpPatient.toLowerCase().trim();
-        ArrayList<String> admissionResults = new ArrayList<String>();
-        ArrayList<String> treatmentResults = new ArrayList<String>();
-        try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
-            while (rs.next()) {
-                String admitted_id = rs.getString("admitted_patient_id").toLowerCase();
-                String admitted_last = rs.getString("admitted_patient_last_name").toLowerCase();
-                if (admitted_id.equals(lookUpNew) || admitted_last.equals(lookUpNew)) {
-                    String admissionDateFromTable = rs.getString("patient_discharge_date");
-                    String admissionDateNew = admissionDateFromTable.replace("-", "");
-                    int admissionDateNewInt = Integer.parseInt(admissionDateNew);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-
-    public void frequentFliers() {
-
-        String sql = "SELECT admission_history.admitted_patient_id, admission_history.admitted_patient_first_name, admission_history.admitted_patient_last_name, admission_history.admitted_patient_admission_date, admission_history.admitted_patient_diagnosis FROM admission_history";
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        String newTime = currentDateTime.toString();
-        String reFormat = newTime.replace("/", "");
-        int currentDate = Integer.parseInt(reFormat);
-
-
-        try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
-            while (rs.next()) {
-                String currentPatient = rs.getString("admitted_patient_last_name");
-                    if (rs.getString("admitted_patient_last_name").equals())
-                    String admissionDateFromTable = rs.getString("patient_discharge_date");
-                    String admissionDateNew = admissionDateFromTable.replace("-", "");
-                    int admissionDateNewInt = Integer.parseInt(admissionDateNew);
-                    int tempDate = 0;
-                    if (admissionDateNewInt > tempDate) {
-                        tempDate = admissionDateNewInt;
-                    }
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-         **/
-
-    }
-
 }
 
 

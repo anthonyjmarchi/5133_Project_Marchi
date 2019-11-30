@@ -223,6 +223,62 @@ public class Main {
                                 }
                             }
                         }
+                        if (querySelection == 3) {
+                            boolean treatmentQuery = true;
+                            while (treatmentQuery) {
+                                System.out.println("****************************");
+                                System.out.println("Please Select a Treatment Query: ");
+                                System.out.println("****************************");
+                                System.out.println("1. Admitted Patient Diagnosis \n2. Outpatient Diagnosis \n3. Diagnosis List \n4. Hospital Treatments \n5. Admitted Patient Treatments \n6. Outpatient Treatments \n7. Frequent Flier \n8. Employee Treatment Involvement  \n9. Go Back");
+                                System.out.println("****************************");
+                                System.out.println("Enter Selection: ");
+                                String treatmentQueryChoice = myObj.nextLine();
+                                if (treatmentQueryChoice.equals("1")) {
+                                    System.out.println("****************************");
+                                }
+                                if (treatmentQueryChoice.equals("2")) {
+                                    System.out.println("****************************");
+                                }
+                                if (treatmentQueryChoice.equals("3")) {
+                                    System.out.println("****************************");
+                                }
+                                if (treatmentQueryChoice.equals("4")) {
+                                    System.out.println("****************************");
+                                }
+                                if (treatmentQueryChoice.equals("5")) {
+                                    System.out.println("****************************");
+                                }
+                                if (treatmentQueryChoice.equals("6")) {
+                                    System.out.println("****************************");
+                                }
+                                if (treatmentQueryChoice.equals("7")) {
+                                    System.out.println("****************************");
+                                }
+                                if (treatmentQueryChoice.equals("8")) {
+                                    System.out.println("****************************");
+                                }
+                                if (treatmentQueryChoice.equals("9")) {
+                                   treatmentQuery = false;
+                                }
+                            }
+                        }
+                        if (querySelection == 4) {
+                            boolean employeeQuery = true;
+                            while (employeeQuery) {
+                                System.out.println("****************************");
+                                System.out.println("Please Select an Employee Query: ");
+                                System.out.println("****************************");
+                                System.out.println("1. All Hospital Workers \n2. Primary Doctors \n3. Doctor/Diagnosis Correlations \n4.  Treatments Ordered by Doctor Lookup \n5. Doctor/Treatment Participation \n6. Employee\Treatment Involvement \n7. Go Back");
+                                System.out.println("****************************");
+                                System.out.println("Enter Selection: ");
+                                String treatmentQueryChoice = myObj.nextLine();
+                                if (treatmentQueryChoice.equals("1")) {
+                                    System.out.println("****************************");
+                                }
+                                if (treatmentQueryChoice.equals("7")) {
+                                    employeeQuery = false;
+                                }
+                        }
                         if (querySelection == 5) {
                             queryTrue = false;
                         }

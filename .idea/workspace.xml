@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a8b4ca22-f34f-4fef-8a32-9695c62deda1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/57e52d3a-0a36-418e-91ba-c1d520ed1ec4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/57e52d3a-0a36-418e-91ba-c1d520ed1ec4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/5133_Project_Marchi/HospitalImport.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/5133_Project_Marchi/HospitalImport.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/5133_Project_Marchi/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/5133_Project_Marchi/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sqlite/Patient.txt" beforeDir="false" afterPath="$PROJECT_DIR$/sqlite/Patient.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sqlite/hospital.db" beforeDir="false" afterPath="$PROJECT_DIR$/sqlite/hospital.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HospitalImport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HospitalImport.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
@@ -68,10 +66,26 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="212" column="64" selection-start-line="212" selection-start-column="64" selection-end-line="212" selection-end-column="64" />
+            <state relative-caret-position="276">
+              <caret line="318" column="1" lean-forward="true" selection-start-line="318" selection-start-column="1" selection-end-line="318" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="docComment;field#importingPatients#0;class#Main#0" />
+                <element signature="e#1527#3110#1" />
+                <element signature="e#2881#3280#1" />
+                <element signature="e#3314#3865#1" />
+                <element signature="e#5058#20935#1" />
+                <element signature="e#5148#19661#1" />
+                <element signature="e#5558#7508#1" />
+                <element signature="e#5668#7453#1" />
+                <element signature="e#7892#12673#1" />
+                <element signature="e#8002#12647#1" />
+                <element signature="e#9576#9832#1" />
+                <element signature="e#15676#18027#1" />
+                <element signature="e#9133#9446#1" />
+                <element signature="e#8969#9253#1" />
+                <element signature="e#8216#8513#1" />
+                <element signature="e#9635#9686#1" />
               </folding>
             </state>
           </provider>
@@ -81,7 +95,7 @@
         <entry file="file://$PROJECT_DIR$/src/Patient.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="320">
-              <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+              <caret line="34" selection-start-line="34" selection-end-line="34" />
               <folding>
                 <element signature="e#1552#1553#0" expanded="true" />
                 <element signature="e#1584#1585#0" expanded="true" />
@@ -93,8 +107,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/HospitalImport.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="548" column="5" lean-forward="true" selection-start-line="548" selection-start-column="5" selection-end-line="548" selection-end-column="5" />
+            <state relative-caret-position="1000">
+              <caret line="479" column="24" selection-start-line="479" selection-start-column="24" selection-end-line="479" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -164,11 +178,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="1404" />
-    <option name="y" value="115" />
-    <option name="width" value="1224" />
-    <option name="height" value="800" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="19" />
+    <option name="y" value="27" />
+    <option name="width" value="764" />
+    <option name="height" value="759" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -206,7 +220,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1575049480443" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1575084807967" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="GenericSQL" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -259,18 +273,18 @@
       <option name="presentableId" value="Default" />
       <updated>1574621649064</updated>
       <workItem from="1574621650780" duration="1041000" />
-      <workItem from="1574686694085" duration="62290000" />
+      <workItem from="1574686694085" duration="65022000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63331000" />
+    <option name="totallyTimeSpent" value="66063000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1404" y="115" width="1224" height="800" extended-state="1" />
+    <frame x="19" y="27" width="764" height="759" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.08714044" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14265928" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -280,7 +294,7 @@
       <window_info anchor="bottom" id="Database Console" weight="0.32876712" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.58898306" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.31784108" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.36849314" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -290,12 +304,12 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.36373165" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.3629842" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info active="true" anchor="right" id="Database" order="4" visible="true" weight="0.2428088" />
+      <window_info anchor="right" id="Database" order="4" weight="0.39750692" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Maven" order="6" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
@@ -497,7 +511,7 @@
     <entry file="file://$PROJECT_DIR$/src/Patient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
-          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
           <folding>
             <element signature="e#1552#1553#0" expanded="true" />
             <element signature="e#1584#1585#0" expanded="true" />
@@ -507,8 +521,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/HospitalImport.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="548" column="5" lean-forward="true" selection-start-line="548" selection-start-column="5" selection-end-line="548" selection-end-column="5" />
+        <state relative-caret-position="1000">
+          <caret line="479" column="24" selection-start-line="479" selection-start-column="24" selection-end-line="479" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -517,10 +531,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="212" column="64" selection-start-line="212" selection-start-column="64" selection-end-line="212" selection-end-column="64" />
+        <state relative-caret-position="276">
+          <caret line="318" column="1" lean-forward="true" selection-start-line="318" selection-start-column="1" selection-end-line="318" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="docComment;field#importingPatients#0;class#Main#0" />
+            <element signature="e#1527#3110#1" />
+            <element signature="e#2881#3280#1" />
+            <element signature="e#3314#3865#1" />
+            <element signature="e#5058#20935#1" />
+            <element signature="e#5148#19661#1" />
+            <element signature="e#5558#7508#1" />
+            <element signature="e#5668#7453#1" />
+            <element signature="e#7892#12673#1" />
+            <element signature="e#8002#12647#1" />
+            <element signature="e#9576#9832#1" />
+            <element signature="e#15676#18027#1" />
+            <element signature="e#9133#9446#1" />
+            <element signature="e#8969#9253#1" />
+            <element signature="e#8216#8513#1" />
+            <element signature="e#9635#9686#1" />
           </folding>
         </state>
       </provider>
