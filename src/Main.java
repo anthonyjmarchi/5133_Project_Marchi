@@ -10,8 +10,9 @@ public class Main {
      * C://Users//antho//sqlite//Treatment.txt
      * C://Users//antho//sqlite//additionalDoctor.txt
      * C://Users//antho//sqlite//Patient.txt
+     *
      * @param args
-     */
+     **/
 
     public static ArrayList<Patient> importingPatients = new ArrayList<Patient>();
     public static ArrayList<Doctor> importingDoctors = new ArrayList<Doctor>();
@@ -35,9 +36,9 @@ public class Main {
             typeOfFile = Integer.parseInt(myObj.nextLine());
             if (typeOfFile == 1) {
                 HospitalImport h = new HospitalImport();
-                if (h.selectTotalRooms() < 20) {
+                if (h.getRoomCount() < 20) {
                     int defaultRoomAddition = 1;
-                    while (defaultRoomAddition  < 21) {
+                    while (defaultRoomAddition < 21) {
                         HospitalImport d = new HospitalImport();
                         d.insertRoomsDefault(defaultRoomAddition);
                         defaultRoomAddition++;
@@ -54,6 +55,7 @@ public class Main {
                     h.insertPatient(p.getType(), p.getFirstName(), p.getLastName(), p.getPatientID(), p.getPatientRoomNumber(), p.getPatientEmergencyContact(), p.getPatientEmergencyContactNumber(), p.getPatientPolicyNumber(), p.getPatientInsurancePolicyCompany(), p.getPatientsPrimaryDoctorLastName(), p.getPatientDiagnosis(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
                     h.updateRooms(p.getPatientRoomNumber(), p.getLastName(), p.getFirstName(), p.getPatientID(), p.getPatientAdmissionDate());
                     h.insertAdmission(p.getPatientID(), p.getFirstName(), p.getLastName(), p.getPatientDiagnosis(), p.getPatientsPrimaryDoctorLastName(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
+                    h.insertDiagnosis(p.getPatientDiagnosis());
                 }
 
                 for (Doctor d : importingDoctors) {
@@ -85,203 +87,186 @@ public class Main {
             }
             if (typeOfFile == 4) {
                 boolean queryTrue = true;
-                    while (queryTrue == true) {
-                        int querySelection = 0;
-                        System.out.println("****************************");
-                        System.out.println("Please Select a Query Type:");
-                        System.out.println("****************************");
-                        System.out.println("1. Room Utilization \n2. Patient Information \n3. Diagnosis and Treatment Information \n4. Employee Information \n5. Go Back");
-                        System.out.println("****************************");
-                        System.out.println("Enter Selection: ");
-                        querySelection = Integer.parseInt(myObj.nextLine());
-                        if (querySelection == 1) {
-                            boolean roomUtilQuery = true;
-                            while (roomUtilQuery) {
+                while (queryTrue == true) {
+                    int querySelection = 0;
+                    System.out.println("****************************");
+                    System.out.println("Please Select a Query Type:");
+                    System.out.println("****************************");
+                    System.out.println("1. Room Utilization \n2. Patient Information \n3. Diagnosis and Treatment Information \n4. Employee Information \n5. Go Back");
+                    System.out.println("****************************");
+                    System.out.println("Enter Selection: ");
+                    querySelection = Integer.parseInt(myObj.nextLine());
+                    if (querySelection == 1) {
+                        boolean roomUtilQuery = true;
+                        while (roomUtilQuery) {
+                            System.out.println("****************************");
+                            System.out.println("Please Select a Query Room Utilization Query: ");
+                            System.out.println("****************************");
+                            System.out.println("1. Occupied Rooms \n2. Unoccupied Rooms \n3. All Rooms \n4. Go Back");
+                            System.out.println("****************************");
+                            System.out.println("Enter Selection: ");
+                            String roomQueryChoice = myObj.nextLine();
+                            if (roomQueryChoice.equals("1")) {
                                 System.out.println("****************************");
-                                System.out.println("Please Select a Query Room Utilization Query: ");
+                                HospitalImport q = new HospitalImport();
+                                q.getOccupiedRooms();
                                 System.out.println("****************************");
-                                System.out.println("1. Occupied Rooms \n2. Unoccupied Rooms \n3. All Rooms \n4. Go Back");
+                            }
+                            if (roomQueryChoice.equals("2")) {
                                 System.out.println("****************************");
-                                System.out.println("Enter Selection: ");
-                                String roomQueryChoice = myObj.nextLine();
-                                if (roomQueryChoice.equals("1")) {
-                                    System.out.println("****************************");
-                                    HospitalImport q = new HospitalImport();
-                                    q.getOccupiedRooms();
-                                    System.out.println("****************************");
-                                }
-                                if (roomQueryChoice.equals("2")) {
-                                    System.out.println("****************************");
-                                    HospitalImport q = new HospitalImport();
-                                    q.getUnOccupiedRooms();
-                                    System.out.println("****************************");
-                                }
-                                if (roomQueryChoice.equals("3")) {
-                                    System.out.println("****************************");
-                                    HospitalImport q = new HospitalImport();
-                                    q.selectTotalRooms();
-                                    System.out.println("****************************");
-                                }
-                                if (roomQueryChoice.equals("4")) {
-                                    roomUtilQuery = false;
-                                }
+                                HospitalImport q = new HospitalImport();
+                                q.getUnOccupiedRooms();
+                                System.out.println("****************************");
+                            }
+                            if (roomQueryChoice.equals("3")) {
+                                System.out.println("****************************");
+                                HospitalImport q = new HospitalImport();
+                                q.selectTotalRooms();
+                                System.out.println("****************************");
+                            }
+                            if (roomQueryChoice.equals("4")) {
+                                roomUtilQuery = false;
                             }
                         }
-                        if (querySelection == 2) {
-                            boolean roomUtilQuery = true;
-                            while (roomUtilQuery) {
+                    }
+                    if (querySelection == 2) {
+                        boolean roomUtilQuery = true;
+                        while (roomUtilQuery) {
+                            System.out.println("****************************");
+                            System.out.println("Please Select a Patient Information Query: ");
+                            System.out.println("****************************");
+                            System.out.println("1. All Patients \n2. All Admitted Patients \n3. All Inpatient Patients w/ Date \n4. Discharged Patients w/ Date \n5. Outpatient Patients \n6. Outpatient Services w/ Date \n7. Patient Admission History \n8. Patient Treatment History \n9. Patients Admission 30 Days \n10. Patient Averages \n11. Go Back");
+                            System.out.println("****************************");
+                            System.out.println("Enter Selection: ");
+                            String patientInfoChoice = myObj.nextLine();
+                            if (patientInfoChoice.equals("1")) {
                                 System.out.println("****************************");
-                                System.out.println("Please Select a Patient Information Query: ");
+                                HospitalImport p = new HospitalImport();
+                                p.getAllPatients();
+                            }
+                            if (patientInfoChoice.equals("2")) {
                                 System.out.println("****************************");
-                                System.out.println("1. All Patients \n2. All Admitted Patients \n3. All Inpatient Patients w/ Date \n4. Discharged Patients w/ Date \n5. Outpatient Patients \n6. Outpatient Services w/ Date \n7. Patient Admission History \n8. Patient Treatment History \n9. Patients Admission 30 Days \n10. Patient Averages \n11. Go Back");
+                                HospitalImport p = new HospitalImport();
+                                p.getInpatients();
+                            }
+                            if (patientInfoChoice.equals("3")) {
                                 System.out.println("****************************");
-                                System.out.println("Enter Selection: ");
-                                String patientInfoChoice = myObj.nextLine();
-                                if (patientInfoChoice.equals("1")) {
-                                    System.out.println("****************************");
-                                    HospitalImport p = new HospitalImport();
-                                    p.getAllPatients();
-                                }
-                                if (patientInfoChoice.equals("2")) {
-                                    System.out.println("****************************");
-                                    HospitalImport p = new HospitalImport();
-                                    p.getInpatients();
-                                }
-                                if (patientInfoChoice.equals("3")) {
-                                    System.out.println("****************************");
-                                    System.out.println("Please Enter a Start Date Range (mm/dd/yyyy: ");
-                                    String startDate = myObj.nextLine();
-                                    String startDateNew = startDate.replace("/", "");
-                                    System.out.println("Please Enter a End Date Range (mm/dd/yyyy: ");
-                                    String endDate = myObj.nextLine();
-                                    String endDateNew = endDate.replace("/", "");
-                                    HospitalImport p = new HospitalImport();
-                                    System.out.println("****************************");
-                                    p.getInpatientRange(startDateNew, endDateNew);
-                                }
-                                if (patientInfoChoice.equals("3")) {
-                                    System.out.println("****************************");
-                                    System.out.println("Please Enter a Start Discharge Date Range (mm/dd/yyyy: ");
-                                    String startDateDischarge = myObj.nextLine();
-                                    String startDateNewDischarge = startDateDischarge.replace("/", "");
-                                    System.out.println("Please Enter an End Discharge Date Range (mm/dd/yyyy: ");
-                                    String endDateDischarge = myObj.nextLine();
-                                    String endDateNewDischarge = endDateDischarge.replace("/", "");
-                                    HospitalImport p = new HospitalImport();
-                                    System.out.println("****************************");
-                                    p.getDischargeDateRange(startDateNewDischarge, endDateNewDischarge);
-                                }
-                                if (patientInfoChoice.equals("5")) {
-                                    System.out.println("****************************");
-                                    HospitalImport p = new HospitalImport();
-                                    p.getOutpatients();
-                                }
-                                if (patientInfoChoice.equals("6")) {
-                                    System.out.println("****************************");
-                                    System.out.println("Please Enter a Start Outpatient Date Range (mm/dd/yyyy: ");
-                                    String startDateOutpatient = myObj.nextLine();
-                                    String startDateNewOutpatient = startDateOutpatient.replace("/", "");
-                                    System.out.println("Please Enter an End Outpatient Date Range (mm/dd/yyyy: ");
-                                    String endDateOutpatient = myObj.nextLine();
-                                    String endDateNewOutpatient = endDateOutpatient.replace("/", "");
-                                    HospitalImport p = new HospitalImport();
-                                    System.out.println("****************************");
-                                    p.getOutpatientDateRange(startDateNewOutpatient, endDateNewOutpatient);
-                                }
-                                if (patientInfoChoice.equals("7")) {
-                                    System.out.println("****************************");
-                                    System.out.println("Please Enter Patient ID or Last Name: ");
-                                    String lookupPatient = myObj.nextLine().toLowerCase();
-                                    HospitalImport p = new HospitalImport();
-                                    System.out.println("****************************");
-                                    p.lookUpAdmissionHistory(lookupPatient);
-                                }
-                                if (patientInfoChoice.equals("8")) {
-                                    System.out.println("****************************");
-                                    System.out.println("Results: ");
-                                    String lookupPatient = myObj.nextLine().toLowerCase();
-                                    HospitalImport p = new HospitalImport();
-                                    System.out.println("****************************");
-                                    p.lookUpAdmissionHistory(lookupPatient);
-                                }
-                                if (patientInfoChoice.equals("9")) {
-                                    System.out.println("****************************");
-                                    System.out.println("Patients Admitted Within 30 Days of Last Discharge Date: ");
-                                    HospitalImport p = new HospitalImport();
-                                    System.out.println("****************************");
-                                }
-                                if (patientInfoChoice.equals("10")) {
-                                    System.out.println("****************************");
-                                    System.out.println("Results: ");
-                                    String lookupPatient = myObj.nextLine().toLowerCase();
-                                    HospitalImport p = new HospitalImport();
-                                    System.out.println("****************************");
-                                    p.lookUpAdmissionHistory(lookupPatient);
-                                }
-                                if (patientInfoChoice.equals("11")) {
-                                    roomUtilQuery = false;
-                                }
+                                System.out.println("Please Enter a Start Date Range (mm/dd/yyyy: ");
+                                String startDate = myObj.nextLine();
+                                String startDateNew = startDate.replace("/", "");
+                                System.out.println("Please Enter a End Date Range (mm/dd/yyyy: ");
+                                String endDate = myObj.nextLine();
+                                String endDateNew = endDate.replace("/", "");
+                                HospitalImport p = new HospitalImport();
+                                System.out.println("****************************");
+                                p.getInpatientRange(startDateNew, endDateNew);
+                            }
+                            if (patientInfoChoice.equals("3")) {
+                                System.out.println("****************************");
+                                System.out.println("Please Enter a Start Discharge Date Range (mm/dd/yyyy: ");
+                                String startDateDischarge = myObj.nextLine();
+                                String startDateNewDischarge = startDateDischarge.replace("/", "");
+                                System.out.println("Please Enter an End Discharge Date Range (mm/dd/yyyy: ");
+                                String endDateDischarge = myObj.nextLine();
+                                String endDateNewDischarge = endDateDischarge.replace("/", "");
+                                HospitalImport p = new HospitalImport();
+                                System.out.println("****************************");
+                                p.getDischargeDateRange(startDateNewDischarge, endDateNewDischarge);
+                            }
+                            if (patientInfoChoice.equals("5")) {
+                                System.out.println("****************************");
+                                HospitalImport p = new HospitalImport();
+                                p.getOutpatients();
+                            }
+                            if (patientInfoChoice.equals("6")) {
+                                System.out.println("****************************");
+                                System.out.println("Please Enter a Start Outpatient Date Range (mm/dd/yyyy: ");
+                                String startDateOutpatient = myObj.nextLine();
+                                String startDateNewOutpatient = startDateOutpatient.replace("/", "");
+                                System.out.println("Please Enter an End Outpatient Date Range (mm/dd/yyyy: ");
+                                String endDateOutpatient = myObj.nextLine();
+                                String endDateNewOutpatient = endDateOutpatient.replace("/", "");
+                                HospitalImport p = new HospitalImport();
+                                System.out.println("****************************");
+                                p.getOutpatientDateRange(startDateNewOutpatient, endDateNewOutpatient);
+                            }
+                            if (patientInfoChoice.equals("7")) {
+                                System.out.println("****************************");
+                            }
+                            if (patientInfoChoice.equals("8")) {
+                                System.out.println("****************************");
+                            }
+                            if (patientInfoChoice.equals("9")) {
+                                System.out.println("****************************");
+                            }
+                            if (patientInfoChoice.equals("10")) {
+                                System.out.println("****************************");
+                            }
+                            if (patientInfoChoice.equals("11")) {
+                                roomUtilQuery = false;
                             }
                         }
-                        if (querySelection == 3) {
-                            boolean treatmentQuery = true;
-                            while (treatmentQuery) {
+                    }
+                    if (querySelection == 3) {
+                        boolean treatmentQuery = true;
+                        while (treatmentQuery) {
+                            System.out.println("****************************");
+                            System.out.println("Please Select a Treatment Query: ");
+                            System.out.println("****************************");
+                            System.out.println("1. Admitted Patient Diagnosis \n2. Outpatient Diagnosis \n3. Diagnosis List \n4. Hospital Treatments \n5. Admitted Patient Treatments \n6. Outpatient Treatments \n7. Frequent Flier \n8. Employee Treatment Involvement  \n9. Go Back");
+                            System.out.println("****************************");
+                            System.out.println("Enter Selection: ");
+                            String treatmentQueryChoice = myObj.nextLine();
+                            if (treatmentQueryChoice.equals("1")) {
                                 System.out.println("****************************");
-                                System.out.println("Please Select a Treatment Query: ");
+                            }
+                            if (treatmentQueryChoice.equals("2")) {
                                 System.out.println("****************************");
-                                System.out.println("1. Admitted Patient Diagnosis \n2. Outpatient Diagnosis \n3. Diagnosis List \n4. Hospital Treatments \n5. Admitted Patient Treatments \n6. Outpatient Treatments \n7. Frequent Flier \n8. Employee Treatment Involvement  \n9. Go Back");
+                            }
+                            if (treatmentQueryChoice.equals("3")) {
                                 System.out.println("****************************");
-                                System.out.println("Enter Selection: ");
-                                String treatmentQueryChoice = myObj.nextLine();
-                                if (treatmentQueryChoice.equals("1")) {
-                                    System.out.println("****************************");
-                                }
-                                if (treatmentQueryChoice.equals("2")) {
-                                    System.out.println("****************************");
-                                }
-                                if (treatmentQueryChoice.equals("3")) {
-                                    System.out.println("****************************");
-                                }
-                                if (treatmentQueryChoice.equals("4")) {
-                                    System.out.println("****************************");
-                                }
-                                if (treatmentQueryChoice.equals("5")) {
-                                    System.out.println("****************************");
-                                }
-                                if (treatmentQueryChoice.equals("6")) {
-                                    System.out.println("****************************");
-                                }
-                                if (treatmentQueryChoice.equals("7")) {
-                                    System.out.println("****************************");
-                                }
-                                if (treatmentQueryChoice.equals("8")) {
-                                    System.out.println("****************************");
-                                }
-                                if (treatmentQueryChoice.equals("9")) {
-                                   treatmentQuery = false;
-                                }
+                            }
+                            if (treatmentQueryChoice.equals("4")) {
+                                System.out.println("****************************");
+                            }
+                            if (treatmentQueryChoice.equals("5")) {
+                                System.out.println("****************************");
+                            }
+                            if (treatmentQueryChoice.equals("6")) {
+                                System.out.println("****************************");
+                            }
+                            if (treatmentQueryChoice.equals("7")) {
+                                System.out.println("****************************");
+                            }
+                            if (treatmentQueryChoice.equals("8")) {
+                                System.out.println("****************************");
+                            }
+                            if (treatmentQueryChoice.equals("9")) {
+                                treatmentQuery = false;
                             }
                         }
-                        if (querySelection == 4) {
-                            boolean employeeQuery = true;
-                            while (employeeQuery) {
+                    }
+                    if (querySelection == 4) {
+                        boolean employeeQuery = true;
+                        while (employeeQuery) {
+                            System.out.println("****************************");
+                            System.out.println("Please Select an Employee Query: ");
+                            System.out.println("****************************");
+                            System.out.println("1. All Hospital Workers \n2. Primary Doctors \n3. Doctor/Diagnosis Correlations \n4.  Treatments Ordered by Doctor Lookup \n5. Doctor/Treatment Participation \n6. Employee Treatment Involvement \n7. Go Back");
+                            System.out.println("****************************");
+                            System.out.println("Enter Selection: ");
+                            String treatmentQueryChoice = myObj.nextLine();
+                            if (treatmentQueryChoice.equals("1")) {
                                 System.out.println("****************************");
-                                System.out.println("Please Select an Employee Query: ");
-                                System.out.println("****************************");
-                                System.out.println("1. All Hospital Workers \n2. Primary Doctors \n3. Doctor/Diagnosis Correlations \n4.  Treatments Ordered by Doctor Lookup \n5. Doctor/Treatment Participation \n6. Employee\Treatment Involvement \n7. Go Back");
-                                System.out.println("****************************");
-                                System.out.println("Enter Selection: ");
-                                String treatmentQueryChoice = myObj.nextLine();
-                                if (treatmentQueryChoice.equals("1")) {
-                                    System.out.println("****************************");
-                                }
-                                if (treatmentQueryChoice.equals("7")) {
-                                    employeeQuery = false;
-                                }
+                            }
+                            if (treatmentQueryChoice.equals("7")) {
+                                employeeQuery = false;
+                            }
                         }
-                        if (querySelection == 5) {
-                            queryTrue = false;
-                        }
+                    }
+                    if (querySelection == 5) {
+                        queryTrue = false;
+                    }
                 }
             }
             if (typeOfFile == 5) {
@@ -290,12 +275,14 @@ public class Main {
                 q.deleteDoctorTableData();
                 q.deleteRoomTableData();
                 q.deletePatientData();
+                q.deleteAdmissionData();
+                q.deleteDiagnosisData();
                 importingPatients.clear();
                 importingDoctors.clear();
             }
             if (typeOfFile == 6) {
                 int defaultRoomAdditionReset = 1;
-                while (defaultRoomAdditionReset  < 21) {
+                while (defaultRoomAdditionReset < 21) {
                     HospitalImport d = new HospitalImport();
                     d.insertRoomsDefault(defaultRoomAdditionReset);
                     defaultRoomAdditionReset++;
@@ -316,7 +303,7 @@ public class Main {
             }
         }
     }
-}
 
+    }
 
 

@@ -10,6 +10,9 @@ import java.time.format.DateTimeFormatter;
 
 public class HospitalImport {
 
+    int diagnosisID = 1;
+    int roomCount = 0;
+
     private Connection connect() {
         // SQLite connection string
         String url = "jdbc:sqlite:/Users/anthonyjmarchi/AuburnProgram/5133_Database_2/5133_Project_Marchi/sqlite/hospital.db";
@@ -89,10 +92,10 @@ public class HospitalImport {
     }
 
     public void insertPerson(String person_type, String patient_first_name, String patient_last_name, int patient_id,
-                              int patient_room_number, String patient_emergency_contact_name, String patient_emergency_contact_phone,
-                              String patient_insurance_policy_number, String patient_insurance_policy_company,
-                              String patient_primary_doctor_last_name, String patient_initial_diagnosis, String patient_admission_date,
-                              String patient_discharge_date) {
+                             int patient_room_number, String patient_emergency_contact_name, String patient_emergency_contact_phone,
+                             String patient_insurance_policy_number, String patient_insurance_policy_company,
+                             String patient_primary_doctor_last_name, String patient_initial_diagnosis, String patient_admission_date,
+                             String patient_discharge_date) {
 
         String sql = "INSERT INTO person_information(person_type, patient_first_name, patient_last_name, patient_id, patient_room_number, patient_emergency_contact_name, patient_emergency_contact_phone, patient_insurance_policy_number, patient_insurance_policy_company, patient_primary_doctor_last_name, patient_initial_diagnosis, patient_admission_date, patient_discharge_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
@@ -208,46 +211,49 @@ public class HospitalImport {
     }
 
     public void updateRooms(int hospital_room_number_input, String hospital_patient_last_name_input, String hospital_patient_first_name_input, int hospital_patient_id_input, String hospital_patient_admission_date_input) {
-          String sql = ("UPDATE hospital_rooms SET hospital_patient_last_name = '" + hospital_patient_last_name_input + "', hospital_patient_first_name = '" + hospital_patient_first_name_input + "', hospital_patient_id = '" + hospital_patient_id_input + "', hospital_patient_admission_date = '" + hospital_patient_admission_date_input + "' WHERE hospital_room_number = '" + hospital_room_number_input + "';");
+        String sql = ("UPDATE hospital_rooms SET hospital_patient_last_name = '" + hospital_patient_last_name_input + "', hospital_patient_first_name = '" + hospital_patient_first_name_input + "', hospital_patient_id = '" + hospital_patient_id_input + "', hospital_patient_admission_date = '" + hospital_patient_admission_date_input + "' WHERE hospital_room_number = '" + hospital_room_number_input + "';");
 
-          try (Connection conn = this.connect();) {
+        try (Connection conn = this.connect();) {
 
-              PreparedStatement ps = conn.prepareStatement(sql);
-              ps.executeUpdate();
-              ps.close();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+            ps.close();
 
-          } catch (SQLException e) {
-              System.out.println(e.getMessage());
-          }
-      }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-    public int selectTotalRooms() {
+    public void selectTotalRooms() {
         String sql = "SELECT hospital_rooms.hospital_room_number, hospital_rooms.hospital_patient_last_name, hospital_rooms.hospital_patient_first_name FROM hospital_rooms";
-        int count = 0;
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             // loop through the result set
             while (rs.next()) {
                 if (rs.getString("hospital_patient_last_name").equals("N/A")) {
                     System.out.println("Unoccupied Room Number: " + rs.getString("hospital_room_number"));
-                }
-                else {
+                    roomCount++;
+                } else {
                     System.out.println("| Occupied Room Number: " + rs.getString("hospital_room_number") + " | Patient Last Name: " + rs.getString("hospital_patient_last_name") + " | Patient First Name: " + rs.getString("hospital_patient_first_name") + " |");
+                    roomCount++;
                 }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return count;
+    }
+
+    public int getRoomCount() {
+        return roomCount;
     }
 
     public void getUnOccupiedRooms() {
         String sql = "SELECT hospital_rooms.hospital_room_number, hospital_patient_id FROM hospital_rooms";
         int count = 0;
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             // loop through the result set
             while (rs.next()) {
@@ -264,8 +270,8 @@ public class HospitalImport {
         String sql = "SELECT hospital_rooms.hospital_room_number, hospital_rooms.hospital_patient_last_name, hospital_rooms.hospital_patient_first_name FROM hospital_rooms";
         int count = 0;
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
 
             // loop through the result set
             while (rs.next()) {
@@ -291,10 +297,10 @@ public class HospitalImport {
     }
 
     public void insertPatient(String patient_type, String patient_first_name, String patient_last_name, int patient_id,
-                             int patient_room_number, String patient_emergency_contact_name, String patient_emergency_contact_phone,
-                             String patient_insurance_policy_number, String patient_insurance_policy_company,
-                             String patient_primary_doctor_last_name, String patient_initial_diagnosis, String patient_admission_date,
-                             String patient_discharge_date) {
+                              int patient_room_number, String patient_emergency_contact_name, String patient_emergency_contact_phone,
+                              String patient_insurance_policy_number, String patient_insurance_policy_company,
+                              String patient_primary_doctor_last_name, String patient_initial_diagnosis, String patient_admission_date,
+                              String patient_discharge_date) {
 
         String sql = "INSERT INTO patient_data(patient_type, patient_first_name, patient_last_name, patient_id, patient_room_number, patient_emergency_contact_name, patient_emergency_contact_phone, patient_insurance_policy_number, patient_insurance_policy_company, patient_primary_doctor_last_name, patient_initial_diagnosis, patient_admission_date, patient_discharge_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
@@ -326,8 +332,8 @@ public class HospitalImport {
         String sql = "SELECT patient_data.patient_type, patient_data.patient_first_name, patient_data.patient_last_name, patient_data.patient_id, patient_data.patient_room_number, patient_data.patient_emergency_contact_name, patient_data.patient_emergency_contact_phone, patient_data.patient_insurance_policy_number, patient_data.patient_insurance_policy_company, patient_data.patient_primary_doctor_last_name, patient_data.patient_initial_diagnosis, patient_data.patient_admission_date, patient_data.patient_discharge_date FROM patient_data";
         int count = 0;
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 System.out.println("| Patient Type: " + rs.getString("patient_type") + " | First Name: " + rs.getString("patient_first_name") + " | Last Name: " + rs.getString("patient_last_name") + "| Diagnosis: " + rs.getString("patient_initial_diagnosis") + " | Admission Date: " + rs.getString("patient_admission_date") + " | Patient Discharge Date: " + rs.getString("patient_discharge_date") + " | Patient Emergency Contact Name: " + rs.getString("patient_emergency_contact_name") + " | Patient Emergency Contact Phone Number: " + rs.getString("patient_emergency_contact_phone"));
             }
@@ -340,8 +346,8 @@ public class HospitalImport {
         String sql = "SELECT patient_data.patient_type, patient_data.patient_id, patient_data.patient_first_name, patient_data.patient_last_name FROM patient_data";
         int count = 0;
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 if (rs.getString("patient_type").equals("i")) {
                     System.out.println("| Patient ID: " + rs.getString("patient_id") + " | First Name: " + rs.getString("patient_first_name") + " | Last Name: " + rs.getString("patient_last_name"));
@@ -356,8 +362,8 @@ public class HospitalImport {
         String sql = "SELECT patient_data.patient_type, patient_data.patient_id, patient_data.patient_first_name, patient_data.patient_last_name FROM patient_data";
         int count = 0;
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 if (rs.getString("patient_type").equals("o")) {
                     System.out.println("| Patient ID: " + rs.getString("patient_id") + " | First Name: " + rs.getString("patient_first_name") + " | Last Name: " + rs.getString("patient_last_name"));
@@ -384,8 +390,8 @@ public class HospitalImport {
         int startDateInput = Integer.parseInt(startDate);
         int endDateInput = Integer.parseInt(endDate);
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 String admissionDateFromTable = rs.getString("patient_admission_date");
                 String admissionDateNew = admissionDateFromTable.replace("-", "");
@@ -406,8 +412,8 @@ public class HospitalImport {
         int startDateInput = Integer.parseInt(startDateDischarge);
         int endDateInput = Integer.parseInt(endDateDischarge);
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 String admissionDateFromTable = rs.getString("patient_discharge_date");
                 String admissionDateNew = admissionDateFromTable.replace("-", "");
@@ -428,8 +434,8 @@ public class HospitalImport {
         int startDateInput = Integer.parseInt(startDateOutpatient);
         int endDateInput = Integer.parseInt(endDateOutpatient);
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 String admissionDateFromTable = rs.getString("patient_discharge_date");
                 String admissionDateNew = admissionDateFromTable.replace("-", "");
@@ -469,24 +475,116 @@ public class HospitalImport {
 
     }
 
-    public void lookUpAdmissionHistory(String lookUpPatient) {
 
-        String sql = "SELECT admission_history.admitted_patient_id, admission_history.admitted_patient_first_name, admission_history.admitted_patient_last_name, admission_history.admitted_patient_admission_date, admission_history.admitted_patient_diagnosis FROM admission_history";
-        String lookUpNew = lookUpPatient.toLowerCase().trim();
+    public void deleteAdmissionData() {
+        String sql = "DELETE FROM admission_history;";
+
         try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql))   {
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteDiagnosisData() {
+        String sql = "DELETE FROM diagnosis_data;";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertDiagnosis(String diagnosis_name) {
+
+        String sql = "INSERT INTO diagnosis_data(diagnosis_id, diagnosis_name, diagnosis_count) VALUES (?,?,?);";
+
+        String formatDiagnosis = diagnosis_name.toLowerCase();
+        int newID = diagnosisID;
+
+        if (diagnosisCheck(formatDiagnosis)) {
+            try (Connection conn = this.connect();) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, newID); //First ? in sql
+                ps.setString(2, formatDiagnosis);
+                ps.setInt(3, getOccurences(formatDiagnosis));
+                diagnosisID++;//Second ? in sql
+                ps.executeUpdate();
+                ps.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        if (!(diagnosisCheck(formatDiagnosis))) {
+            insertOccurence(formatDiagnosis);
+        }
+    }
+
+    public void insertOccurence(String diagnosisNameInput) {
+
+        int occurences = getOccurences(diagnosisNameInput);
+        occurences++;
+        String sql = "UPDATE diagnosis_data SET diagnosis_count = '" + occurences + "' WHERE diagnosis_name = '" + diagnosisNameInput + "';";
+            try (Connection conn = this.connect();) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.executeUpdate();
+                ps.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+    }
+
+    private boolean diagnosisCheck(String diagnosisName) {
+
+        String sql = "SELECT diagnosis_data.diagnosis_name FROM diagnosis_data";
+
+        boolean check = true;
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
             while (rs.next()) {
-                String admitted_id = rs.getString("admitted_patient_id").toLowerCase();
-                String admitted_last = rs.getString("admitted_patient_last_name").toLowerCase();
-                if (admitted_id.equals(lookUpNew) || admitted_last.equals(lookUpNew)) {
-                    System.out.println("| Admission Date: " + rs.getString("admitted_patient_admission_date") + " | Diagnosis: " + rs.getString("admitted_patient_diagnosis") + " |");
+                if (rs.getString("diagnosis_name").equals(diagnosisName)) {
+                    check = false;
                 }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return check;
+    }
 
+    public int getDiagnosisID() {
+        return diagnosisID;
+    }
+
+    private int getOccurences(String diagnosisName) {
+
+        String sql = "SELECT diagnosis_data.diagnosis_name, diagnosis_data.diagnosis_count FROM diagnosis_data";
+
+        boolean check = true;
+        int occurence = 0;
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                if (rs.getString("diagnosis_name").equals(diagnosisName)) {
+                    occurence = rs.getInt("diagnosis_count");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return occurence;
     }
 
 }
