@@ -1,16 +1,15 @@
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
+import jdk.jshell.Diag;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 
 public class HospitalImport {
 
     int diagnosisID = 1;
+    int treamentID = 1;
     int roomCount = 0;
 
     private Connection connect() {
@@ -343,7 +342,7 @@ public class HospitalImport {
     }
 
     public void getInpatients() {
-        String sql = "SELECT patient_data.patient_type, patient_data.patient_id, patient_data.patient_first_name, patient_data.patient_last_name FROM patient_data";
+        String sql = "SELECT patient_data.patient_type, patient_data.patient_id, patient_data.patient_first_name, patient_data.patient_last_name, patient_data.patient_initial_diagnosis FROM patient_data";
         int count = 0;
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
@@ -498,9 +497,9 @@ public class HospitalImport {
         }
     }
 
-    public void insertDiagnosis(String diagnosis_name) {
+    public void insertDiagnosis(String diagnosis_name, String patient_type) {
 
-        String sql = "INSERT INTO diagnosis_data(diagnosis_id, diagnosis_name, diagnosis_count) VALUES (?,?,?);";
+        String sql = "INSERT INTO diagnosis_data(diagnosis_id, diagnosis_name, diagnosis_count, diagnosis_patient_type) VALUES (?,?,?,?);";
 
         String formatDiagnosis = diagnosis_name.toLowerCase();
         int newID = diagnosisID;
@@ -511,6 +510,7 @@ public class HospitalImport {
                 ps.setInt(1, newID); //First ? in sql
                 ps.setString(2, formatDiagnosis);
                 ps.setInt(3, getOccurences(formatDiagnosis));
+                ps.setString(4, patient_type);
                 diagnosisID++;//Second ? in sql
                 ps.executeUpdate();
                 ps.close();
@@ -586,6 +586,175 @@ public class HospitalImport {
         }
         return occurence;
     }
+
+    public void getAdmittedPatientDiagnosis() {
+
+        String sql = "SELECT diagnosis_data.diagnosis_id, diagnosis_data.diagnosis_name, diagnosis_data.diagnosis_count, diagnosis_data.diagnosis_patient_type FROM diagnosis_data GROUP BY diagnosis_name ORDER BY diagnosis_count";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+
+                    if (rs.getString("diagnosis_patient_type").equals("i")) {
+                        System.out.println("Diagnosis ID: " + rs.getInt("diagnosis_id") + " Diagnosis Name: " + rs.getString("diagnosis_name") + "Diagnosis Occurrences: " + rs.getInt("diagnosis_count"));
+                    }
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getOutpatientPatientDiagnosis() {
+
+        String sql = "SELECT diagnosis_data.diagnosis_id, diagnosis_data.diagnosis_name, diagnosis_data.diagnosis_count, diagnosis_data.diagnosis_patient_type FROM diagnosis_data GROUP BY diagnosis_name ORDER BY diagnosis_count";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+
+                if (rs.getString("diagnosis_patient_type").equals("o")) {
+                    System.out.println("Diagnosis ID: " + rs.getInt("diagnosis_id") + " Diagnosis Name: " + rs.getString("diagnosis_name") + "Diagnosis Occurrences: " + rs.getInt("diagnosis_count"));
+                }
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getAllPatientDiagnosis() {
+
+        String sql = "SELECT diagnosis_data.diagnosis_id, diagnosis_data.diagnosis_name, diagnosis_data.diagnosis_count, diagnosis_data.diagnosis_patient_type FROM diagnosis_data GROUP BY diagnosis_name ORDER BY diagnosis_count";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                System.out.println("Diagnosis ID: " + rs.getInt("diagnosis_id") + " Diagnosis Name: " + rs.getString("diagnosis_name") + "Diagnosis Occurrences: " + rs.getInt("diagnosis_count"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteDiagnosisTableData() {
+        String sql = "DELETE FROM diagnosis_data;";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public void insertTreatmentData(String treatment_name, String patient_type, String treatment_type) {
+
+        String sql = "INSERT INTO treatment_data(treatment_id, treatment_name, treatment_count, treatment_patient_type, treatment_type) VALUES (?,?,?,?,?);";
+
+        String formatTreatment = treatment_name.toLowerCase();
+        int newID = treamentID;
+
+        if (treatmentCheck(formatTreatment)) {
+            insertOccurenceTreatment(formatTreatment);
+            try (Connection conn = this.connect();) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, newID); //First ? in sql
+                ps.setString(2, formatTreatment);
+                ps.setInt(3, getTreatmentOccurences(formatTreatment));
+                ps.setString(4, patient_type);
+                ps.setString(5, treatment_type);
+                treamentID++;//Second ? in sql
+                ps.executeUpdate();
+                ps.close();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        if (!(diagnosisCheck(formatTreatment))) {
+            insertOccurenceTreatment(formatTreatment);
+        }
+    }
+
+    private boolean treatmentCheck(String treatmentName) {
+
+        String sql = "SELECT treatment_data.treatment_name FROM treatment_data";
+
+        boolean check = true;
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                if (rs.getString("treatment_name").equals(treatmentName)) {
+                    check = false;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return check;
+    }
+
+
+    private int getTreatmentOccurences(String treatmentName) {
+
+        String sql = "SELECT treatment_data.treatment_name, treatment_data.treatment_count FROM treatment_data";
+
+        boolean check = true;
+        int occurence = 0;
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                if (rs.getString("treatment_name").equals(treatmentName)) {
+                    occurence = rs.getInt("treatment_count");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return occurence;
+    }
+
+    public void insertOccurenceTreatment(String treatmentNameInput) {
+
+        int occurences = getTreatmentOccurences(treatmentNameInput);
+        occurences++;
+        String sql = "UPDATE treatment_data SET treatment_count = '" + occurences + "' WHERE treatment_name = '" + treatmentNameInput + "';";
+        try (Connection conn = this.connect();) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void deleteTreatmentDataTable() {
+        String sql = "DELETE FROM treatment_data;";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 }
 

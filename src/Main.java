@@ -55,7 +55,7 @@ public class Main {
                     h.insertPatient(p.getType(), p.getFirstName(), p.getLastName(), p.getPatientID(), p.getPatientRoomNumber(), p.getPatientEmergencyContact(), p.getPatientEmergencyContactNumber(), p.getPatientPolicyNumber(), p.getPatientInsurancePolicyCompany(), p.getPatientsPrimaryDoctorLastName(), p.getPatientDiagnosis(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
                     h.updateRooms(p.getPatientRoomNumber(), p.getLastName(), p.getFirstName(), p.getPatientID(), p.getPatientAdmissionDate());
                     h.insertAdmission(p.getPatientID(), p.getFirstName(), p.getLastName(), p.getPatientDiagnosis(), p.getPatientsPrimaryDoctorLastName(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
-                    h.insertDiagnosis(p.getPatientDiagnosis());
+                    h.insertDiagnosis(p.getPatientDiagnosis(), p.getType());
                 }
 
                 for (Doctor d : importingDoctors) {
@@ -68,7 +68,9 @@ public class Main {
                 System.out.println("****************************");
             }
             if (typeOfFile == 2) {
-                ArrayList<Doctor> theList = new ArrayList<Doctor>((test.getDoctorListNewDoctor("", 2)));
+                System.out.println("Enter File Location: ");
+                String fileNameInputDoctor = myObj.nextLine();
+                ArrayList<Doctor> theList = new ArrayList<Doctor>((test.getDoctorListNewDoctor(fileNameInputDoctor, 2)));
                 HospitalImport h = new HospitalImport();
                 h.deleteDoctorTableData();
                 for (Doctor d : theList) {
@@ -77,13 +79,16 @@ public class Main {
                 h.selectDoctor();
             }
             if (typeOfFile == 3) {
-                ArrayList<Treatment> theList = new ArrayList<Treatment>((test.getTreatmentList("/Users/anthonyjmarchi/AuburnProgram/5133_Database_2/5133_Project_Marchi/sqlite/Treatment.txt", 3)));
+                System.out.println("Enter File Location: ");
+                String treatmentFileNameInput = myObj.nextLine();
+                ArrayList<Treatment> theList = new ArrayList<Treatment>((test.getTreatmentList(treatmentFileNameInput, 3)));
                 HospitalImport h = new HospitalImport();
                 h.deleteTableData();
                 for (Treatment t : theList) {
                     h.insertTreatment(t.getPatientLastName(), t.getDoctorLastName(), t.getTreatmentType(), t.getTreatment(), t.getTimestamp());
+                    h.insertTreatmentData(t.getTreatment(), "Inpatient", t.getTreatmentType());
                 }
-                h.selectTreatment();
+                System.out.println("****************************");
             }
             if (typeOfFile == 4) {
                 boolean queryTrue = true;
@@ -219,11 +224,20 @@ public class Main {
                             String treatmentQueryChoice = myObj.nextLine();
                             if (treatmentQueryChoice.equals("1")) {
                                 System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getAdmittedPatientDiagnosis();
+                                System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("2")) {
                                 System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getOutpatientPatientDiagnosis();
+                                System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("3")) {
+                                System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getAllPatientDiagnosis();
                                 System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("4")) {
@@ -277,6 +291,9 @@ public class Main {
                 q.deletePatientData();
                 q.deleteAdmissionData();
                 q.deleteDiagnosisData();
+                q.deleteDoctorTableData();
+                q.deleteTreatmentDataTable();
+                q.deleteDiagnosisTableData();
                 importingPatients.clear();
                 importingDoctors.clear();
             }
