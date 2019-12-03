@@ -16,6 +16,10 @@ public class Main {
 
     public static ArrayList<Patient> importingPatients = new ArrayList<Patient>();
     public static ArrayList<Doctor> importingDoctors = new ArrayList<Doctor>();
+    public static ArrayList<Volunteer> importingVolunteers = new ArrayList<Volunteer>();
+    public static ArrayList<Administrator> importingAdministrators = new ArrayList<Administrator>();
+    public static ArrayList<Nurse> importingNurses = new ArrayList<Nurse>();
+    public static ArrayList<Technician> importingTechnicians = new ArrayList<Technician>();
     public static Boolean peopleImported = false;
 
     public static void main(String[] args) {
@@ -50,14 +54,14 @@ public class Main {
                 peopleImported = true;
                 importingPatients = test.getPatientList();
                 importingDoctors = test.getDoctorList();
+
                 for (Patient p : importingPatients) {
                     h.insertPerson(p.getType(), p.getFirstName(), p.getLastName(), p.getPatientID(), p.getPatientRoomNumber(), p.getPatientEmergencyContact(), p.getPatientEmergencyContactNumber(), p.getPatientPolicyNumber(), p.getPatientInsurancePolicyCompany(), p.getPatientsPrimaryDoctorLastName(), p.getPatientDiagnosis(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
                     h.insertPatient(p.getType(), p.getFirstName(), p.getLastName(), p.getPatientID(), p.getPatientRoomNumber(), p.getPatientEmergencyContact(), p.getPatientEmergencyContactNumber(), p.getPatientPolicyNumber(), p.getPatientInsurancePolicyCompany(), p.getPatientsPrimaryDoctorLastName(), p.getPatientDiagnosis(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
                     h.updateRooms(p.getPatientRoomNumber(), p.getLastName(), p.getFirstName(), p.getPatientID(), p.getPatientAdmissionDate());
-                    h.insertAdmission(p.getPatientID(), p.getFirstName(), p.getLastName(), p.getPatientDiagnosis(), p.getPatientsPrimaryDoctorLastName(), p.getPatientAdmissionDate(), p.getPatientDischargeDate());
+                    h.insertAdmission(p.getPatientID(), p.getFirstName(), p.getLastName(), p.getPatientDiagnosis(), p.getPatientsPrimaryDoctorLastName(), p.getPatientAdmissionDate(), p.getPatientDischargeDate(), 0);
                     h.insertDiagnosis(p.getPatientDiagnosis(), p.getType());
                 }
-
                 for (Doctor d : importingDoctors) {
                     h.insertDoctor(d.getFirstName(), d.getLastName(), d.getprivileges());
                 }
@@ -88,6 +92,10 @@ public class Main {
                     h.insertTreatment(t.getPatientLastName(), t.getDoctorLastName(), t.getTreatmentType(), t.getTreatment(), t.getTimestamp());
                     h.insertTreatmentData(t.getTreatment(), "Inpatient", t.getTreatmentType());
                 }
+                System.out.println("****************************");
+                System.out.println("Importing....");
+                System.out.println("****************************");
+                System.out.println("Imported File At: " + treatmentFileNameInput.toString());
                 System.out.println("****************************");
             }
             if (typeOfFile == 4) {
@@ -242,17 +250,32 @@ public class Main {
                             }
                             if (treatmentQueryChoice.equals("4")) {
                                 System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getAllTreatments();
+                                System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("5")) {
+                                System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getInpatientTreatments();
                                 System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("6")) {
                                 System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getOutpatientTreatments();
+                                System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("7")) {
                                 System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getAdmittedPatientDiagnosis();
+                                System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("8")) {
+                                System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getTreatmentWorkersInvolved();
                                 System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("9")) {
@@ -271,6 +294,21 @@ public class Main {
                             System.out.println("Enter Selection: ");
                             String treatmentQueryChoice = myObj.nextLine();
                             if (treatmentQueryChoice.equals("1")) {
+                                System.out.println("****************************");
+                            }
+                            if (treatmentQueryChoice.equals("2")) {
+                                System.out.println("****************************");
+                            }
+                            if (treatmentQueryChoice.equals("3")) {
+                                System.out.println("****************************");
+                            }
+                            if (treatmentQueryChoice.equals("4")) {
+                                System.out.println("****************************");
+                            }
+                            if (treatmentQueryChoice.equals("5")) {
+                                System.out.println("****************************");
+                            }
+                            if (treatmentQueryChoice.equals("6")) {
                                 System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("7")) {
@@ -294,6 +332,7 @@ public class Main {
                 q.deleteDoctorTableData();
                 q.deleteTreatmentDataTable();
                 q.deleteDiagnosisTableData();
+                q.deleteHospitalEmployeeData();
                 importingPatients.clear();
                 importingDoctors.clear();
             }
