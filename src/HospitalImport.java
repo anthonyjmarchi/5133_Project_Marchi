@@ -849,62 +849,25 @@ public class HospitalImport {
         }
     }
 
-    public ArrayList<String> getAdmittedPatientList() {
+    public void getAdmissionByName(String input) {
 
-        String sql = "SELECT admission_history.admitted_patient_last_name FROM admission_history";
-        ArrayList<String> nameList = new ArrayList<String>();
-
-        try (Connection conn = this.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                nameList.add(rs.getString("admitted_patient_last_name"));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return nameList;
-    }
-
-    public ArrayList<String> getAdmittedPatientTreatmentList(ArrayList<String> nameList) {
-
-        String sql = "SELECT treatment.patient_last_name, treatment.treatment_method FROM treatment";
-
-        ArrayList<String> treatmentList = new ArrayList<String>();
+        String sql = "SELECT admission_history.admitted_patient_last_name, admission_history.admitted_patient_diagnosis, admission_history.admitted_patient_id FROM admission_history";
+        String inputNameNum = input.toLowerCase();
 
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                if (nameList.contains(rs.getString("patient_last_name"))) {
-                    treatmentList.add(rs.getString("treatment_method"));
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return treatmentList;
-    }
-
-    public void getAdmittedPatientTreatments(ArrayList<String> treatmentList) {
-
-        String sql = "SELECT treatment_data.treatment_id, treatment_data.treatment_name, treatment_data.treatment_count, treatment_data.treatment_patient_type FROM treatment_data GROUP BY treatment_name ORDER BY treatment_count";
-
-        try (Connection conn = this.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                if (treatmentList.contains(rs.getString("treatment_name"))) {
-                    System.out.println("Treatment ID: " + rs.getInt("Treatment_id") + " Treatment Name: " + rs.getString("treatment_name") + " Treatment Occurrences: " + rs.getInt("treatment_count"));
+                if (rs.getString("admitted_patient_last_name").equals(inputNameNum) || rs.getString("admitted_patient_id").equals(inputNameNum)) {
+                    System.out.println("Last Name: " + rs.getString("admitted_patient_last_name") + " Diagnosis: " + rs.getString("admitted_patient_diagnosis"));
                 }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
 
 
     public void getTreatmentWorkersInvolved() {
@@ -948,6 +911,114 @@ public class HospitalImport {
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getAllHospitalWorkers() {
+
+        String sql = "SELECT hospital_employees.employee_last_name, hospital_employees.employee_first_name, hospital_employees.employee_type  FROM hospital_employees";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                System.out.println("Occupation: " + rs.getString("employee_type").toUpperCase() + " First Name: " + rs.getString("employee_first_name") + " Last Name: " + (rs.getString("employee_last_name")));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getHighAdmissionDoctors() {
+
+        String sql = "SELECT admission_history.admitted_patient_last_name, admission_history.admitted_patient_doctor FROM admission_history";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            ArrayList<String> name = new ArrayList<>();
+            while (rs.next()) {
+                name.add((rs.getString("admitted_patient_last_name")));
+            }
+
+            ArrayList<String> nameAgain = new ArrayList<>();
+            int count = 0;
+
+            for (int i = 0; i < name.size(); i++) {
+                for (int j = 0; j < name.size(); j++) {
+                    if (name.get(i) == name.get(j)) {
+                        count++;
+                        if (count >= 4) {
+                            nameAgain.add(name.get(i));
+                        }
+                    }
+                    count = 0;
+                }
+            }
+            for (String q : nameAgain) {
+                System.out.println("High Admission Doctors: " + q);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getTreatmentByName(String input) {
+
+        String sql = "SELECT treatment.patient_last_name, treatment.treatment_method FROM treatment";
+        String inputNameNum = input.toLowerCase();
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                if (rs.getString("patient_last_name").equals(inputNameNum)) {
+                    System.out.println("Last Name: " + rs.getString("patient_last_name") + " Diagnosis: " + rs.getString("treatment_method"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getAllDoctorDiagnosis(String input) {
+
+        String sql = "SELECT admission_history.admitted_patient_doctor, admission_history.admitted_patient_diagnosis FROM admission_history";
+        String inputNameNum = input.toLowerCase();
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                if (rs.getString("admitted_patient_doctor").equals(inputNameNum)) {
+                    System.out.println("Doctor Last Name: " + rs.getString("admitted_patient_doctor") + " Diagnosis: " + rs.getString("admitted_patient_diagnosis"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getAllTreatmentsByDoctor(String input) {
+
+        String sql = "SELECT treatment.doctor_last_name, treatment.treatment_method FROM treatment";
+        String inputNameNum = input.toLowerCase();
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                if (rs.getString("doctor_last_name").equals(inputNameNum)) {
+                    System.out.println("Doctor Last Name: " + rs.getString("doctor_last_name") + " Diagnosis: " + rs.getString("treatment_method"));
+                }
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

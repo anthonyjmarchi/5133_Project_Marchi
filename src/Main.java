@@ -205,9 +205,17 @@ public class Main {
                             }
                             if (patientInfoChoice.equals("7")) {
                                 System.out.println("****************************");
+                                System.out.println("Enter Last Name or ID: ");
+                                String inputName = myObj.nextLine();
+                                HospitalImport p = new HospitalImport();
+                                p.getAdmissionByName(inputName);
                             }
                             if (patientInfoChoice.equals("8")) {
                                 System.out.println("****************************");
+                                System.out.println("Enter Last Name: ");
+                                String inputNameStuff = myObj.nextLine();
+                                HospitalImport p = new HospitalImport();
+                                p.getTreatmentByName(inputNameStuff);
                             }
                             if (patientInfoChoice.equals("9")) {
                                 System.out.println("****************************");
@@ -289,26 +297,47 @@ public class Main {
                             System.out.println("****************************");
                             System.out.println("Please Select an Employee Query: ");
                             System.out.println("****************************");
-                            System.out.println("1. All Hospital Workers \n2. Primary Doctors \n3. Doctor/Diagnosis Correlations \n4.  Treatments Ordered by Doctor Lookup \n5. Doctor/Treatment Participation \n6. Employee Treatment Involvement \n7. Go Back");
+                            System.out.println("1. All Hospital Workers \n2. Primary Doctors \n3. Doctor/Diagnosis Correlations \n4. Treatments Ordered by Doctor Lookup \n5. Doctor/Treatment Participation \n6. Employee Treatment Involvement \n7. Go Back");
                             System.out.println("****************************");
                             System.out.println("Enter Selection: ");
                             String treatmentQueryChoice = myObj.nextLine();
                             if (treatmentQueryChoice.equals("1")) {
                                 System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getAllHospitalWorkers();
+                                System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("2")) {
+                                System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getHighAdmissionDoctors();
                                 System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("3")) {
                                 System.out.println("****************************");
+                                System.out.println("Enter Doctor Last Name: ");
+                                String inputDoctorName = myObj.nextLine();
+                                HospitalImport p = new HospitalImport();
+                                p.getAllDoctorDiagnosis(inputDoctorName);
                             }
                             if (treatmentQueryChoice.equals("4")) {
                                 System.out.println("****************************");
+                                System.out.println("Enter Doctor Last Name: ");
+                                String inputDoctorName = myObj.nextLine();
+                                HospitalImport p = new HospitalImport();
+                                p.getAllTreatmentsByDoctor(inputDoctorName);
                             }
                             if (treatmentQueryChoice.equals("5")) {
                                 System.out.println("****************************");
+                                System.out.println("Enter Doctor Last Name: ");
+                                String inputDoctorName = myObj.nextLine();
+                                HospitalImport p = new HospitalImport();
+                                p.getAllTreatmentsByDoctor(inputDoctorName);
                             }
                             if (treatmentQueryChoice.equals("6")) {
+                                System.out.println("****************************");
+                                HospitalImport m = new HospitalImport();
+                                m.getAllHospitalWorkers();
                                 System.out.println("****************************");
                             }
                             if (treatmentQueryChoice.equals("7")) {
