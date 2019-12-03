@@ -5,11 +5,7 @@ import java.util.ArrayList;
 public class Main {
 
     /**
-     * Imports data into SQL table.
-     * Use the following files:
-     * C://Users//antho//sqlite//Treatment.txt
-     * C://Users//antho//sqlite//additionalDoctor.txt
-     * C://Users//antho//sqlite//Patient.txt
+     * Main Method
      *
      * @param args
      **/
@@ -219,9 +215,13 @@ public class Main {
                             }
                             if (patientInfoChoice.equals("9")) {
                                 System.out.println("****************************");
+                                HospitalImport p = new HospitalImport();
+                                p.getAdmissions();
                             }
                             if (patientInfoChoice.equals("10")) {
                                 System.out.println("****************************");
+                                HospitalImport p = new HospitalImport();
+                                p.getAdmissionHistory();
                             }
                             if (patientInfoChoice.equals("11")) {
                                 roomUtilQuery = false;

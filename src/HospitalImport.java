@@ -1024,6 +1024,38 @@ public class HospitalImport {
         }
     }
 
+    public void getAdmissions() {
+
+        String sql = "SELECT admission_history.admitted_patient_id, admission_history.admitted_patient_first_name, admission_history.admitted_patient_last_name, admission_history.admitted_patient_diagnosis, admission_history.admitted_patient_diagnosis FROM admission_history";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                System.out.println("Patient First Name: " + rs.getString("admission_history.admitted_patient_first_name") + " Patient Last Name: " + rs.getString("admission_history.admitted_patient_last_name") + " Patient ID: " + rs.getString("admission_history.admitted_patient_id") + " Diagnosis: " + rs.getString("admission_history.admitted_patient_diagnosis"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getAdmissionHistory() {
+
+        String sql = "SELECT admission_history.admitted_patient_id, admission_history.admitted_patient_first_name, admission_history.admitted_patient_last_name, admission_history.admitted_patient_diagnosis, admission_history.admitted_patient_diagnosis FROM admission_history";
+
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                System.out.println("Patient First Name: " + rs.getString("admission_history.admitted_patient_first_name") + " Patient Last Name: " + rs.getString("admission_history.admitted_patient_last_name") + " Patient ID: " + rs.getString("admission_history.admitted_patient_id") + " Diagnosis: " + rs.getString("admission_history.admitted_patient_diagnosis") + " Admissions Count: " + rs.getString("admission_history.admitted_patient_diagnosis"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 }
 
